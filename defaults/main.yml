@@ -1,0 +1,24 @@
+---
+cortex_version: '1.2.0'
+cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
+cortex_bin_sha256: '1b50cfbf8f105e9bb379cbfccf1df2e2934089792b782c45cf7e9eaf6ec38100'
+cortex_bin_path: '/usr/local/bin/cortex'
+
+cortex_service_name: 'cortex'
+cortex_service_user: 'cortex'
+cortex_config_path: '/etc/{{ cortex_service_name }}'
+cortex_config_file: '{{ cortex_config_path }}/config.yml'
+cortex_schema_file: '{{ cortex_config_path }}/schema.yml'
+cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
+cortex_alertmanager_dir: '{{ cortex_data_dir }}/alertmnanager'
+
+# Viable values: debug, info, warn, error
+cortex_log_level: 'info'
+cortex_listen_port: 9092
+
+# Storage
+cortex_storage_keyspace_name: 'cortex_metrics'
+cortex_storage_consistency: 'QUORUM'
+cortex_storage_replication_factor: 3
+
+consul_catalog_url: 'http://localhost:8500/v1/catalog'

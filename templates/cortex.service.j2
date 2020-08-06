@@ -1,0 +1,17 @@
+[Unit]
+Description="Cortex - Horizontally scalable, highly available, multi-tenant, long term Prometheus"
+Documentation=https://cortexmetrics.io/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty={{ cortex_config_file }}
+
+[Service]
+User={{ cortex_service_name }}
+ExecStart={{ cortex_bin_path }} -config.file={{ cortex_config_file }} -schema-config-file {{ cortex_schema_file }}
+Restart=on-failure
+WorkingDirectory={{ cortex_data_dir }}
+RuntimeDirectory={{ cortex_service_name }}
+PermissionsStartOnly=True
+
+[Install]
+WantedBy=multi-user.target

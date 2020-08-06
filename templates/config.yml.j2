@@ -1,0 +1,60 @@
+auth_enabled: false
+
+http_prefix: '/api/prom'
+
+# ---------------------- Consul ---------------------------
+#consul:
+#  hostname: 'localhost:8500'
+
+# ---------------------- Server ---------------------------
+server:
+  http_listen_address: '0.0.0.0'
+  http_listen_port: {{ cortex_listen_port | mandatory }}
+  log_level: '{{ cortex_log_level }}'
+
+# ---------------------- Storage --------------------------
+storage:
+  engine: 'chunks'
+  cassandra:
+    addresses: '{{ cassandra_nodes | join(',') | trim }}'
+    port: {{ cassandra_port | mandatory }}
+    SSL: false
+    auth: false
+    keyspace: '{{ cortex_storage_keyspace_name }}'
+    consistency: '{{ cortex_storage_consistency }}'
+    replication_factor: {{ cortex_storage_replication_factor }}
+
+# ---------------------- Configs --------------------------
+configs:
+  database:
+    # TODO use postgres
+    uri: 'memory://'
+
+# ---------------------- Ingester -------------------------
+ingester:
+  walconfig:
+    wal_enabled: false
+    checkpoint_enabled: true
+    checkpoint_duration: '30m'
+
+# ---------------------- Querier ---------------------------
+querier:
+  max_concurrent: 20
+  timeout: '2m'
+
+# ---------------------- Query Frontend --------------------
+frontend:
+  downstream_url: 'TODO'
+
+# ---------------------- Ruler -----------------------------
+ruler:
+  external_url: 'https://cortex.status.im/'
+  enable_alertmanager_v2: true
+  enable_api: true
+  evaluation_interval: '1m'
+
+# ---------------------- Alertmanager ----------------------
+alertmanager:
+  external_url: 'https://alerts.status.im/'
+  retention: 120h
+  data_dir: '{{ cortex_alertmanager_dir }}'

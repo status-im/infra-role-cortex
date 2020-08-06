@@ -1,0 +1,28 @@
+---
+- name: Create config and other directories
+  file:
+    path: '{{ item }}'
+    owner: '{{ cortex_service_user }}'
+    group: 'adm'
+    mode: '0750'
+    state: directory
+  with_items:
+    - '{{ cortex_config_path }}'
+    - '{{ cortex_data_dir }}'
+    - '{{ cortex_alertmanager_dir }}'
+
+- name: Create Cortex configuration
+  template:
+    src: 'config.yml.j2'
+    dest: '{{ cortex_config_file }}'
+    owner: '{{ cortex_service_user }}'
+    group: 'adm'
+    mode: '0640'
+
+- name: Create Cortex schema file
+  template:
+    src: 'schema.yml.j2'
+    dest: '{{ cortex_schema_file }}'
+    owner: '{{ cortex_service_user }}'
+    group: 'adm'
+    mode: '0640'

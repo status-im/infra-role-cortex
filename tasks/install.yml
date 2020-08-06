@@ -1,0 +1,13 @@
+---
+- name: Download binary tarball
+  get_url:
+    url: '{{ cortex_bin_url }}'
+    dest: '{{ cortex_bin_path }}'
+    checksum: 'sha256:{{ cortex_bin_sha256 }}'
+    mode: '0755'
+
+- name: Create Service User
+  user:
+    name: '{{ cortex_service_user }}'
+    group: daemon
+    comment: 'Cortex service user'

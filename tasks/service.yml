@@ -1,0 +1,23 @@
+---
+- name: Create data directory
+  file:
+    path: '{{ cortex_data_dir }}'
+    state: directory
+    owner: '{{ cortex_service_user }}'
+    group: 'adm'
+    mode: 0775
+
+- name: Create systemd Unit file
+  template:
+    src: 'cortex.service.j2'
+    dest: '/lib/systemd/system/{{ cortex_service_name }}.service'
+    mode: 0644
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload
+
+- name: Start Service
+  service:
+    name: '{{ cortex_service_name }}.service'
+    state: restarted
+    enabled: true
