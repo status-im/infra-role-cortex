@@ -2,7 +2,10 @@ configs:
   - from: '2020-08-01'
     schema: v9
     index:
-      period: 1w
       prefix: cortex_index_
+      period: 1w
+    chunks:
+      prefix: cortex_chunk_
+      period: 1w
     store: cassandra
     object_store: cassandra
