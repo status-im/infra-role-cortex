@@ -13,8 +13,9 @@ cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_alertmanager_dir: '{{ cortex_data_dir }}/alertmnanager'
 
 # Viable values: debug, info, warn, error
-cortex_log_level: 'info'
+cortex_log_level: 'debug'
 cortex_listen_port: 9092
+cortex_grpc_port: 9095
 
 # Storage
 cortex_storage_keyspace_name: 'cortex_metrics'
