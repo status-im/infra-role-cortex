@@ -11,6 +11,7 @@ The absolute minimum to configure is:
 cortex_storage_keyspace_name: 'cortex_metrics'
 cortex_storage_consistency: 'QUORUM'
 cortex_storage_replication_factor: 3
+cortex_storage_retention_period: '50w' 
 ```
 
 # Management

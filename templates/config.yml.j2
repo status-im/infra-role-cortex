@@ -26,6 +26,11 @@ storage:
     consistency: '{{ cortex_storage_consistency }}'
     replication_factor: {{ cortex_storage_replication_factor }}
 
+# ---------------------- Table Manager --------------------
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: '{{ cortex_storage_retention_period }}'
+
 # ---------------------- Configs --------------------------
 configs:
   database:
