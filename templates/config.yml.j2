@@ -41,6 +41,10 @@ ingester:
     checkpoint_enabled: true
     checkpoint_duration: '30m'
 
+# ---------------------- Frontend Worker -------------------
+frontend_worker:
+  frontend_address: '{{ ansible_local.tinc.vpn_ip }}:{{ cortex_grpc_port }}'
+
 # ---------------------- Querier ---------------------------
 querier:
   max_concurrent: 20
