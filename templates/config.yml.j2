@@ -2,9 +2,9 @@ auth_enabled: false
 
 http_prefix: '/api/prom'
 
-# ---------------------- Consul ---------------------------
-#consul:
-#  hostname: 'localhost:8500'
+# ---------------------- MemberList -----------------------
+memberlist:
+  node_name: '{{ ansible_host }}'
 
 # ---------------------- Server ---------------------------
 server:
@@ -34,6 +34,8 @@ configs:
 
 # ---------------------- Ingester -------------------------
 ingester:
+  lifecycler:
+    interface_names: {{ cortex_listen_interfaces | to_yaml }}
   walconfig:
     wal_enabled: false
     checkpoint_enabled: true
@@ -53,4 +55,5 @@ ruler:
 # ---------------------- Alertmanager ----------------------
 alertmanager:
   retention: 120h
+  cluster_advertise_address: '{{ ansible_local.tinc.vpn_ip }}'
   data_dir: '{{ cortex_alertmanager_dir }}'
