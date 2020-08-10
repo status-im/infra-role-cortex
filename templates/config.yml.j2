@@ -1,10 +1,9 @@
+---
 auth_enabled: false
-
-http_prefix: '/api/prom'
 
 # ---------------------- MemberList -----------------------
 memberlist:
-  node_name: '{{ ansible_host }}'
+  node_name: '{{ hostname }}'
 
 # ---------------------- Server ---------------------------
 server:
