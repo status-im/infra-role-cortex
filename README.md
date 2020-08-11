@@ -43,3 +43,9 @@ And check the currently used config through the `/config` path:
 admin@master-01.do-ams3.metrics.hq:~ % curl -s localhost:9092/config | grep keyspace   
     keyspace: cortex_metrics
 ```
+
+# Web UI
+
+Cortex also exposes a very basic UI on the root of it's main port(`9092` by default).
+
+The most interesting paths would include `/config`, `/services`, and `/ingester/ring`.
