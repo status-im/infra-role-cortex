@@ -12,6 +12,7 @@ Restart=on-failure
 WorkingDirectory={{ cortex_data_dir }}
 RuntimeDirectory={{ cortex_service_name }}
 PermissionsStartOnly=True
+LimitNOFILE=65536
 
 [Install]
 WantedBy=multi-user.target
