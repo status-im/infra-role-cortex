@@ -21,3 +21,4 @@
     name: '{{ cortex_service_name }}.service'
     state: restarted
     enabled: true
+  throttle: 1
