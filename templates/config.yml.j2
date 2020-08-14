@@ -63,9 +63,3 @@ ruler:
     type: local
     local:
       directory: '{{ cortex_rules_dir }}'
-
-# ---------------------- Alertmanager ----------------------
-alertmanager:
-  retention: 120h
-  cluster_advertise_address: '{{ ansible_local.tinc.vpn_ip }}'
-  data_dir: '{{ cortex_alertmanager_dir }}'
