@@ -6,14 +6,14 @@ cortex_bin_path: '/usr/local/bin/cortex'
 
 cortex_service_name: 'cortex'
 cortex_service_user: 'cortex'
-cortex_config_path: '/etc/{{ cortex_service_name }}'
-cortex_config_file: '{{ cortex_config_path }}/config.yml'
-cortex_schema_file: '{{ cortex_config_path }}/schema.yml'
+cortex_config_dir: '/etc/{{ cortex_service_name }}'
+cortex_config_file: '{{ cortex_config_dir }}/config.yml'
+cortex_schema_file: '{{ cortex_config_dir }}/schema.yml'
 cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
-cortex_alertmanager_dir: '{{ cortex_data_dir }}/alertmnanager'
+cortex_rules_dir: '{{ cortex_config_dir }}/rules'
 
 # Viable values: debug, info, warn, error
-cortex_log_level: 'info'
+cortex_log_level: 'error'
 cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['tun0']

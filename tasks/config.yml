@@ -7,9 +7,9 @@
     mode: '0750'
     state: directory
   with_items:
-    - '{{ cortex_config_path }}'
+    - '{{ cortex_config_dir }}'
     - '{{ cortex_data_dir }}'
-    - '{{ cortex_alertmanager_dir }}'
+    - '{{ cortex_rules_dir }}'
 
 - name: Create Cortex configuration
   template:

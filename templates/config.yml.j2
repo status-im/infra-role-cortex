@@ -56,9 +56,13 @@ querier:
 
 # ---------------------- Ruler -----------------------------
 ruler:
+  #external_url: 'https://rules.status.im/'
   enable_alertmanager_v2: true
   enable_api: true
-  evaluation_interval: '1m'
+  storage:
+    type: local
+    local:
+      directory: '{{ cortex_rules_dir }}'
 
 # ---------------------- Alertmanager ----------------------
 alertmanager:
