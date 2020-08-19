@@ -10,6 +10,6 @@
         address: '{{ ansible_local.tinc.vpn_ip }}'
         checks:
           - id: '{{ cortex_service_name }}-health'
-            name: Cassandra Healthcheck
+            name: Cortex Healthcheck
             type: http
             http: 'http://localhost:{{ cortex_listen_port }}/'
