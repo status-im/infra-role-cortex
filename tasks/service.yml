@@ -16,7 +16,7 @@
 - name: Reload Systemctl
   command: systemctl daemon-reload
 
-- name: Start Service
+- name: (Re)Start Service
   service:
     name: '{{ cortex_service_name }}.service'
     state: restarted

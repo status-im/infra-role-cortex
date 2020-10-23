@@ -1,5 +1,5 @@
 ---
-- name: Download binary tarball
+- name: Download Cortex binary
   get_url:
     url: '{{ cortex_bin_url }}'
     dest: '{{ cortex_bin_path }}'
