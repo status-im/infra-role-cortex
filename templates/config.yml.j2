@@ -1,6 +1,11 @@
 ---
 auth_enabled: false
 
+# ---------------------- Limits ---------------------------
+limits:
+  ingestion_rate: 100000
+  ingestion_burst_size: 200000
+
 # ---------------------- MemberList -----------------------
 memberlist:
   node_name: '{{ hostname }}'
