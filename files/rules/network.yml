@@ -1,0 +1,27 @@
+---
+groups:
+  - name: network
+    rules:
+    # Alert for any instance that has too high inbound traffic
+    - alert: HighInboundTraffic
+      expr: >
+        abs(sum by (instance)(avg_over_time(netdata_net_net_kilobits_persec_average{dimension="received", fleet!~".*(test|ci).*"}[3h]))) /
+        abs(sum by (instance)(avg_over_time(netdata_net_net_kilobits_persec_average{dimension="received", fleet!~".*(test|ci).*"}[1d] offset 1h)))
+        > 4
+      for: 30m
+      annotations:
+        summary: "Too high inbound traffic for {{ $labels.instance }}" 
+        description: "{{ $labels.instance }} has inbound traffic 4x higher than in the past 12 hours" 
+        current_value: "{{ $value }}" 
+
+    # Alert for any instance that has too high outbound traffic
+    - alert: HighOutboundTraffic
+      expr: >
+        abs(sum by (instance)(avg_over_time(netdata_net_net_kilobits_persec_average{dimension="sent", fleet!~".*(test|ci).*"}[3h]))) /
+        abs(sum by (instance)(avg_over_time(netdata_net_net_kilobits_persec_average{dimension="sent", fleet!~".*(test|ci).*"}[1d] offset 1h)))
+        > 4
+      for: 30m
+      annotations:
+        summary: "Too high inbound traffic for {{ $labels.instance }}" 
+        description: "{{ $labels.instance }} has inbound traffic 4x higher than in the past 12 hours." 
+        current_value: "{{ $value }}" 
