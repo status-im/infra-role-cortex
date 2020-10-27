@@ -25,4 +25,9 @@ cortex_storage_replication_factor: 3
 # Must be a multiple of periodic table duration, see schema.
 cortex_storage_retention_period: '100w' # 2 years
 
+# AlertManager configuration
+cortex_alertmanager_url: ~
+cortex_alertmanager_addr: ~
+cortex_alertmanager_port: ~
+
 consul_catalog_url: 'http://localhost:8500/v1/catalog'

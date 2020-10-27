@@ -13,6 +13,12 @@ cortex_storage_consistency: 'QUORUM'
 cortex_storage_replication_factor: 3
 cortex_storage_retention_period: '50w' 
 ```
+You also should configure optional AlertManager:
+```yml
+cortex_alertmanager_url: 'https://alerts.example.org/
+cortex_alertmanager_addr: 'localhost'
+cortex_alertmanager_port: 9093
+```
 
 # Management
 

@@ -56,8 +56,11 @@ querier:
 
 # ---------------------- Ruler -----------------------------
 ruler:
-  #external_url: 'https://rules.infra.status.im/'
+{% if cortex_alertmanager_addr %}
+  external_url: '{{ cortex_alertmanager_url | mandatory }}'
+  alertmanager_url: '{{ cortex_alertmanager_addr | mandatory }}:{{ cortex_alertmanager_port | mandatory }}'
   enable_alertmanager_v2: true
+{% endif %}
   enable_api: true
   storage:
     type: local
