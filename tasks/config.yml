@@ -9,9 +9,9 @@
   with_items:
     - '{{ cortex_config_dir }}'
     - '{{ cortex_data_dir }}'
+    - '{{ cortex_data_dir }}/rules'
     - '{{ cortex_rules_dir }}'
-    # This is because we use auth_enabled:false
-    - '{{ cortex_rules_dir }}/fake'
+    - '{{ cortex_rules_dir }}/fake' # This is because we use auth_enabled:false
 
 - name: Create Cortex configuration
   template:
