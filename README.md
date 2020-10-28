@@ -55,3 +55,7 @@ admin@master-01.do-ams3.metrics.hq:~ % curl -s localhost:9092/config | grep keys
 Cortex also exposes a very basic UI on the root of it's main port(`9092` by default).
 
 The most interesting paths would include `/config`, `/services`, and `/ingester/ring`.
+
+# Known Issues
+
+* Prometheus endpoints require `X-Scope-OrgID` header to be set. See: [cortex#3343)](https://github.com/cortexproject/cortex/pull/3343)

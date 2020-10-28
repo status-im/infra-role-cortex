@@ -29,6 +29,20 @@ storage:
     keyspace: '{{ cortex_storage_keyspace_name }}'
     consistency: '{{ cortex_storage_consistency }}'
     replication_factor: {{ cortex_storage_replication_factor }}
+  index_queries_cache_config:
+    redis:
+      endpoint: '{{ cortex_redis_endpoint }}'
+      db: {{ cortex_redis_dbs["storage"] }}
+
+# ---------------------- Querier --------------------------
+query_range:
+  split_queries_by_interval: '168h'
+  cache_results: true
+  results_cache:
+    cache:
+      redis:
+        endpoint: '{{ cortex_redis_endpoint }}'
+        db: {{ cortex_redis_dbs["query_range"] }}
 
 # ---------------------- Table Manager --------------------
 table_manager:

@@ -30,4 +30,10 @@ cortex_alertmanager_url: ~
 cortex_alertmanager_addr: ~
 cortex_alertmanager_port: ~
 
+# Redis Cache configuration
+cortex_redis_endpoint: '127.0.0.1:6379'
+cortex_redis_dbs:
+  query_range: 0
+  storage: 1
+
 consul_catalog_url: 'http://localhost:8500/v1/catalog'
