@@ -44,6 +44,10 @@ query_range:
         endpoint: '{{ cortex_redis_endpoint }}'
         db: {{ cortex_redis_dbs["query_range"] }}
 
+# ---------------------- Frontend Worker ------------------
+frontend_worker:
+  frontend_address: '{{ cortex_query_frontend_addr }}:{{ cortex_query_frontend_port }}'
+
 # ---------------------- Table Manager --------------------
 table_manager:
   retention_deletes_enabled: true
@@ -63,10 +67,6 @@ ingester:
     wal_enabled: false
     checkpoint_enabled: true
     checkpoint_duration: '30m'
-
-# ---------------------- Frontend Worker -------------------
-frontend_worker:
-  frontend_address: '{{ ansible_local.tinc.vpn_ip }}:{{ cortex_grpc_port }}'
 
 # ---------------------- Querier ---------------------------
 querier:
