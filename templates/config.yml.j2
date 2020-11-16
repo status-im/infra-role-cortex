@@ -36,17 +36,12 @@ storage:
   index_queries_cache_config:
     redis:
       endpoint: '{{ cortex_redis_endpoint }}'
-      db: {{ cortex_redis_dbs["storage"] }}
+      db: {{ cortex_redis_db }}
 
 # ---------------------- Querier --------------------------
-query_range:
-  split_queries_by_interval: '168h'
-  cache_results: true
-  results_cache:
-    cache:
-      redis:
-        endpoint: '{{ cortex_redis_endpoint }}'
-        db: {{ cortex_redis_dbs["query_range"] }}
+querier:
+  max_concurrent: 30
+  timeout: '2m'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
@@ -65,6 +60,7 @@ configs:
 
 # ---------------------- Ingester -------------------------
 ingester:
+  spread_flushes: true
   flush_period: '1m'
   retain_period: '5m'
   max_chunk_age: '12h'
@@ -77,8 +73,3 @@ ingester:
     recover_from_wal: true
     checkpoint_enabled: true
     checkpoint_duration: '15m'
-
-# ---------------------- Querier ---------------------------
-querier:
-  max_concurrent: 20
-  timeout: '2m'
