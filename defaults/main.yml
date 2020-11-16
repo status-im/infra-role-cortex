@@ -10,6 +10,7 @@ cortex_config_dir: '/etc/{{ cortex_service_name }}'
 cortex_config_file: '{{ cortex_config_dir }}/config.yml'
 cortex_schema_file: '{{ cortex_config_dir }}/schema.yml'
 cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
+cortex_wal_dir: '/var/tmp/{{ cortex_service_name }}/wal'
 
 # Viable values: debug, info, warn, error
 cortex_log_level: 'error'
