@@ -18,6 +18,10 @@ server:
   grpc_listen_port: {{ cortex_grpc_port | mandatory }}
   log_level: '{{ cortex_log_level }}'
 
+  # Big queries need bigger message size
+  grpc_server_max_recv_msg_size: 8388608
+  grpc_server_max_send_msg_size: 8388608
+
 # ---------------------- Storage --------------------------
 storage:
   engine: 'chunks'
