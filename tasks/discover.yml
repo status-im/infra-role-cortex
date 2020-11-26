@@ -26,4 +26,4 @@
       | first }}
 
     cortex_query_frontend_addr: '{{ query_frontend_services.json[0]["ServiceAddress"] }}'
-    cortex_query_frontend_port: '{{ query_frontend_services.json[0]["ServicePort"] }}'
+    cortex_query_frontend_port: '{{ query_frontend_services.json[0]["ServiceMeta"]["grpc_port"] }}'
