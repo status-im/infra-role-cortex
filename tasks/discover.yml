@@ -8,7 +8,7 @@
 
 - name: Get Query Frontend service addresses
   uri:
-    url: '{{ consul_catalog_url }}/service/cortex-query-frontend'
+    url: '{{ consul_catalog_url }}/service/cortex?tag=query-frontend'
     method: GET
     validate_certs: no
   register: query_frontend_services
