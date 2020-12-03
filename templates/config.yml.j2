@@ -34,6 +34,8 @@ storage:
     keyspace: '{{ cortex_storage_keyspace_name }}'
     consistency: '{{ cortex_storage_consistency }}'
     replication_factor: {{ cortex_storage_replication_factor }}
+    timeout: '5s'
+    max_retries: 1
   index_queries_cache_config:
     redis:
       endpoint: '{{ cortex_redis_endpoint }}'
@@ -41,12 +43,15 @@ storage:
 
 # ---------------------- Querier --------------------------
 querier:
-  max_concurrent: 30
+  max_samples: 500000000
+  max_concurrent: 1000
   timeout: '2m'
+  query_store_after: '1h'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
   frontend_address: '{{ cortex_query_frontend_addr }}:{{ cortex_query_frontend_port }}'
+  match_max_concurrent: true
 
 # ---------------------- Table Manager --------------------
 table_manager:
@@ -73,4 +78,4 @@ ingester:
     wal_dir: '{{ cortex_wal_dir }}'
     recover_from_wal: true
     checkpoint_enabled: true
-    checkpoint_duration: '15m'
+    checkpoint_duration: '1h'
