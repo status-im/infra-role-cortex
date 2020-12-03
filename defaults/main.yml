@@ -23,7 +23,7 @@ cortex_storage_keyspace_name: 'cortex_metrics'
 cortex_storage_consistency: 'QUORUM'
 cortex_storage_replication_factor: 1
 # Must be a multiple of periodic table duration, see schema.
-cortex_storage_retention_period: '100w' # 2 years
+cortex_storage_retention_period: '180d'
 
 # AlertManager configuration
 cortex_alertmanager_url: ~
