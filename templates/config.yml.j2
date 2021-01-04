@@ -18,7 +18,7 @@ api:
 server:
   http_listen_address: '0.0.0.0'
   http_listen_port: {{ cortex_listen_port | mandatory }}
-  grpc_listen_address: '{{ ansible_local.tinc.vpn_ip }}'
+  grpc_listen_address: '0.0.0.0'
   grpc_listen_port: {{ cortex_grpc_port | mandatory }}
   log_level: '{{ cortex_log_level }}'
 
