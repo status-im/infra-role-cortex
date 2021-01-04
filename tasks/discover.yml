@@ -8,7 +8,7 @@
 
 - name: Get Query Frontend service addresses
   uri:
-    url: '{{ consul_catalog_url }}/service/cortex?tag=query-frontend'
+    url: '{{ consul_catalog_url }}/service/cortex-query-frontend'
     method: GET
     validate_certs: no
   register: query_frontend_services
@@ -18,7 +18,7 @@
     cassandra_nodes: |
       {{ cassandra_services.json
       | map(attribute="ServiceAddress")
-      | reject('equalto', ansible_local.tinc.vpn_ip)
+      | reject("equalto", ansible_local.tinc.vpn_ip)
       | list }}
     cassandra_port: |
       {{ cassandra_services.json
