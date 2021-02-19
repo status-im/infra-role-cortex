@@ -2,22 +2,16 @@
 - name: Get Cassandra service addresses
   uri:
     url: '{{ consul_catalog_url }}/service/cassandra'
-    method: GET
-    validate_certs: no
   register: cassandra_services
 
 - name: Get Query Frontend service addresses
   uri:
     url: '{{ consul_catalog_url }}/service/cortex-query-frontend'
-    method: GET
-    validate_certs: no
   register: query_frontend_services
 
 - name: Get memcached service addresses
   uri:
     url: '{{ consul_catalog_url }}/service/memcached'
-    method: GET
-    validate_certs: no
   register: memcached_services
 
 - name: Extract service IP addresses
