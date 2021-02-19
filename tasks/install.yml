@@ -11,7 +11,3 @@
     name: '{{ cortex_service_user }}'
     group: daemon
     comment: 'Cortex service user'
-
-- name: Install Redis for Cortex cache
-  apt:
-    name: redis

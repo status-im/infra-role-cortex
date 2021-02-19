@@ -41,9 +41,11 @@ storage:
     timeout: '5s'
     max_retries: 1
   index_queries_cache_config:
-    redis:
-      endpoint: '{{ cortex_redis_endpoint }}'
-      db: {{ cortex_redis_db }}
+    memcached:
+      parallelism: 1000
+    memcached_client:
+      addresses: "{{ memcached_addresses | join(',') }}"
+      timeout: 200ms
 
 # ---------------------- Querier --------------------------
 querier:

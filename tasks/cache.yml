@@ -1,4 +1,0 @@
----
-- name: Install Redis for Cortex cache
-  apt:
-    name: redis

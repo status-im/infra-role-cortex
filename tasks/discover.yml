@@ -13,6 +13,13 @@
     validate_certs: no
   register: query_frontend_services
 
+- name: Get memcached service addresses
+  uri:
+    url: '{{ consul_catalog_url }}/service/memcached'
+    method: GET
+    validate_certs: no
+  register: memcached_services
+
 - name: Extract service IP addresses
   set_fact:
     cassandra_nodes: |
@@ -27,3 +34,6 @@
 
     cortex_query_frontend_addr: '{{ query_frontend_services.json[0]["ServiceAddress"] }}'
     cortex_query_frontend_port: '{{ query_frontend_services.json[0]["ServiceMeta"]["grpc_port"] }}'
+
+    memcached_addresses: |
+      {{ memcached_services.json | json_query("[].[ServiceAddress, ServicePort]") | map('join', ':') }}
