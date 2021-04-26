@@ -32,8 +32,8 @@ server:
 storage:
   engine: 'chunks'
   cassandra:
-    addresses: '{{ cassandra_nodes | join(',') | trim }}'
-    port: {{ cassandra_port | mandatory }}
+    addresses: '{{ cortex_cassandra_nodes | join(',') | trim }}'
+    port: {{ cortex_cassandra_port | mandatory }}
     SSL: false
     auth: false
     keyspace: '{{ cortex_storage_keyspace_name }}'
@@ -45,7 +45,7 @@ storage:
     memcached:
       parallelism: 1000
     memcached_client:
-      addresses: "{{ memcached_addresses | join(',') }}"
+      addresses: "{{ cortex_memcached_addresses | join(',') }}"
       timeout: 200ms
 
 # ---------------------- Querier --------------------------

@@ -16,12 +16,12 @@
 
 - name: Extract service IP addresses
   set_fact:
-    cassandra_nodes: |
+    cortex_cassandra_nodes: |
       {{ cassandra_services.json
       | map(attribute="ServiceAddress")
       | reject("equalto", ansible_local.tinc.vpn_ip)
       | list }}
-    cassandra_port: |
+    cortex_cassandra_port: |
       {{ cassandra_services.json
       | map(attribute="ServicePort")
       | first }}
@@ -29,5 +29,5 @@
     cortex_query_frontend_addr: '{{ query_frontend_services.json[0]["ServiceAddress"] }}'
     cortex_query_frontend_port: '{{ query_frontend_services.json[0]["ServiceMeta"]["grpc_port"] }}'
 
-    memcached_addresses: |
-      {{ memcached_services.json | json_query("[].[ServiceAddress, ServicePort]") | map('join', ':') }}
+    cortex_memcached_addresses: |
+      {{ memcached_services.json | json_query("[].[ServiceAddress, ServicePort]") | map('join', ':') | list }}
