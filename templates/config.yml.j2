@@ -48,6 +48,11 @@ storage:
       addresses: "{{ cortex_memcached_addresses | join(',') }}"
       timeout: 200ms
 
+  # Required by purger module
+  delete_store:
+    store: 'cassandra'
+    requests_table_name: 'delete_requests'
+
 # ---------------------- Querier --------------------------
 querier:
   max_samples: 500000000
@@ -91,3 +96,10 @@ ingester:
 compactor:
   # Necessary only the first time 1.7.0 version starts.
   block_deletion_marks_migration_enabled: false
+
+# ---------------------- Purger ---------------------------
+purger:
+  enable: true
+  num_workers: 2
+  object_store_type: 'filesystem'
+  delete_request_cancel_period: '1m'
