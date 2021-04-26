@@ -86,3 +86,8 @@ ingester:
     recover_from_wal: true
     checkpoint_enabled: true
     checkpoint_duration: '1h'
+
+# ---------------------- Compactor ------------------------
+compactor:
+  # Necessary only the first time 1.7.0 version starts.
+  block_deletion_marks_migration_enabled: false
