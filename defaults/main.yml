@@ -1,7 +1,7 @@
 ---
-cortex_version: '1.7.0'
+cortex_version: '1.8.0'
 cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
-cortex_bin_sha256: '444bd0bffd6b70d33d6aabb9e3334552be8c16fd2acd6be0d1042501cf521f3c'
+cortex_bin_sha256: 'a7906614e1b53b4f18e00710c0a44c40de51d00f10c7f576aeec85b520cab0d8'
 cortex_bin_path: '/usr/local/bin/cortex'
 
 cortex_service_name: 'cortex'
