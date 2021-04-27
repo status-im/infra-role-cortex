@@ -41,19 +41,36 @@ storage:
     keyspace: '{{ cortex_storage_keyspace_name }}'
     consistency: '{{ cortex_storage_consistency }}'
     replication_factor: {{ cortex_storage_replication_factor }}
-    timeout: '5s'
-    max_retries: 1
+    timeout: '10s'
+    max_retries: 2
+    num_connections: 3
+    query_concurrency: 3
   index_queries_cache_config:
     memcached:
       parallelism: 1000
     memcached_client:
-      addresses: "{{ cortex_memcached_addresses | join(',') }}"
-      timeout: 200ms
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
 
   # Required by purger module
   delete_store:
     store: 'cassandra'
     requests_table_name: 'delete_requests'
+
+# ---------------------- Chunks ---------------------------
+chunk_store:
+  chunk_cache_config:
+    memcached:
+      parallelism: 1000
+    memcached_client:
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
+  write_dedupe_cache_config:
+    memcached:
+      parallelism: 1000
+    memcached_client:
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
 
 # ---------------------- Querier --------------------------
 querier:
