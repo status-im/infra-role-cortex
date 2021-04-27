@@ -103,5 +103,5 @@ compactor:
 purger:
   enable: true
   num_workers: 2
-  object_store_type: 'filesystem'
-  delete_request_cancel_period: '13h'
+  object_store_type: 'inmemory'
+  delete_request_cancel_period: '5m'
