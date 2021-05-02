@@ -11,7 +11,8 @@
 
 - name: Get memcached service addresses
   uri:
-    url: '{{ consul_catalog_url }}/service/memcached'
+    # WARNING: The tag is important to not match other clusters.
+    url: '{{ consul_catalog_url }}/service/memcached?tag=cortex'
   register: memcached_services
 
 - name: Extract service IP addresses
