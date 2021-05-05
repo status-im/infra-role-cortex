@@ -41,10 +41,9 @@ storage:
     keyspace: '{{ cortex_storage_keyspace_name }}'
     consistency: '{{ cortex_storage_consistency }}'
     replication_factor: {{ cortex_storage_replication_factor }}
-    timeout: '10s'
+    timeout: '20s'
     max_retries: 2
-    num_connections: 3
-    query_concurrency: 3
+    num_connections: 2
   index_queries_cache_config:
     memcached:
       parallelism: 1000
