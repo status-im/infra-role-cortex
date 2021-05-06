@@ -81,7 +81,7 @@ querier:
   max_concurrent: 100
   timeout: '2m'
   # Should be same as ingester.max_chunk_age
-  query_store_after: '1h'
+  query_store_after: '12h'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
@@ -114,7 +114,7 @@ ingester:
     wal_dir: '{{ cortex_wal_dir }}'
     recover_from_wal: true
     checkpoint_enabled: true
-    checkpoint_duration: '1h'
+    checkpoint_duration: '12h'
 
 # ---------------------- Compactor ------------------------
 compactor:
