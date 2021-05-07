@@ -28,10 +28,11 @@ server:
   # Big queries need bigger message size
   grpc_server_max_recv_msg_size: 104857600
   grpc_server_max_send_msg_size: 16777216
-  grpc_server_max_concurrent_streams: 1000
+  grpc_server_max_concurrent_streams: 0
 
   # Avoid RPC timeouts
-  grpc_server_min_time_between_pings: 30s
+  grpc_server_keepalive_timeout: 30s
+  grpc_server_min_time_between_pings: 15s
   grpc_server_ping_without_stream_allowed: true
 
 # ---------------------- Storage --------------------------
