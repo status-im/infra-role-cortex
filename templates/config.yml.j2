@@ -110,12 +110,6 @@ ingester:
   lifecycler:
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
-  walconfig:
-    wal_enabled: true
-    wal_dir: '{{ cortex_wal_dir }}'
-    recover_from_wal: true
-    checkpoint_enabled: true
-    checkpoint_duration: '12h'
 
 # ---------------------- Compactor ------------------------
 compactor:
