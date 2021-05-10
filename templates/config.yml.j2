@@ -51,7 +51,8 @@ storage:
     num_connections: 2
   index_queries_cache_config:
     memcached:
-      parallelism: 1000
+      batch_size: 16384
+      parallelism: 10
     memcached_client:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
@@ -65,13 +66,15 @@ storage:
 chunk_store:
   chunk_cache_config:
     memcached:
-      parallelism: 1000
+      batch_size: 16384
+      parallelism: 10
     memcached_client:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
   write_dedupe_cache_config:
     memcached:
-      parallelism: 1000
+      batch_size: 16384
+      parallelism: 10
     memcached_client:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
