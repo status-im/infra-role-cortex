@@ -13,7 +13,7 @@ cortex_bin_sha256: 'cd87e309890465dbd06a3e647f89243f74a548a401e9e0cb265e6142e2c1
 cortex_bin_path: '/usr/local/bin/cortex'
 
 # List of modules/services to load at startup.
-cortex_target_modules: ['distributor', 'ingester', 'purger']
+cortex_target_modules: ['all']
 
 # Viable values: debug, info, warn, error
 cortex_log_level: 'error'

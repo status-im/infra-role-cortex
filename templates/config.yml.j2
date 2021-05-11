@@ -37,6 +37,74 @@ server:
   grpc_server_min_time_between_pings: 5s
   grpc_server_ping_without_stream_allowed: true
 
+{% if 'querier' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Querier --------------------------
+querier:
+  max_samples: 1000000000
+  max_concurrent: 100
+  timeout: '2m'
+  # Should be same as `ingester.max_chunk_age`.
+  query_store_after: '2h'
+
+# ---------------------- Frontend Worker ------------------
+frontend_worker:
+  frontend_address: '{{ cortex_query_frontend_addr }}:{{ cortex_query_frontend_port }}'
+  match_max_concurrent: true
+
+{% endif %}
+{% if 'query-frontend' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Query Frontend -------------------
+frontend:
+  max_outstanding_per_tenant: 400
+  log_queries_longer_than: 5s
+  query_stats_enabled: true
+  grpc_client_config:
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 16777216
+
+# ---------------------- Querier --------------------------
+query_range:
+  split_queries_by_interval: '24h'
+  align_queries_with_step: true
+  cache_results: true
+  results_cache:
+    cache:
+      memcached:
+        batch_size: 16384
+        parallelism: 10
+      memcached_client:
+        addresses: '{{ cortex_memcached_addresses | join(',') }}'
+        timeout: '500ms'
+
+{% endif %}
+{% if 'table-manager' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Table Manager --------------------
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: '{{ cortex_storage_retention_period }}'
+
+{% endif %}
+{% if 'distributor' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Distributor ----------------------
+distributor:
+  # Low timeout causes ingester `context deadline exceeded`.
+  # Should be the same as `querier.query_store_after`.
+  remote_timeout: '4s'
+
+{% endif %}
+{% if 'ingester' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Ingester -------------------------
+ingester:
+  spread_flushes: true
+  flush_period: '1m'
+  retain_period: '5m'
+  # Lowers amount of RAM used at cost of storage I/O.
+  # Should be same as `querier.query_store_after`.
+  max_chunk_age: '2h'
+  lifecycler:
+    tokens_file_path: '{{ cortex_wal_dir }}/tokens'
+    interface_names: {{ cortex_listen_interfaces | to_yaml }}
+
 # ---------------------- Storage --------------------------
 storage:
   engine: 'chunks'
@@ -81,59 +149,15 @@ chunk_store:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
 
-{% if 'querier' in cortex_target_modules %}
-# ---------------------- Querier --------------------------
-querier:
-  max_samples: 1000000000
-  max_concurrent: 100
-  timeout: '2m'
-  # Should be same as `ingester.max_chunk_age`.
-  query_store_after: '2h'
-
 {% endif %}
-{% if 'query-frontend' in cortex_target_modules %}
-# ---------------------- Frontend Worker ------------------
-frontend_worker:
-  frontend_address: '{{ cortex_query_frontend_addr }}:{{ cortex_query_frontend_port }}'
-  match_max_concurrent: true
-
-{% endif %}
-{% if 'table-manager' in cortex_target_modules %}
-# ---------------------- Table Manager --------------------
-table_manager:
-  retention_deletes_enabled: true
-  retention_period: '{{ cortex_storage_retention_period }}'
-
-{% endif %}
-{% if 'distributor' in cortex_target_modules %}
-# ---------------------- Distributor ----------------------
-distributor:
-  # Low timeout causes ingester `context deadline exceeded`.
-  # Should be the same as `querier.query_store_after`.
-  remote_timeout: '4s'
-
-{% endif %}
-{% if 'ingester' in cortex_target_modules %}
-# ---------------------- Ingester -------------------------
-ingester:
-  spread_flushes: true
-  flush_period: '1m'
-  retain_period: '5m'
-  # Lowers amount of RAM used at cost of storage I/O.
-  # Should be same as `querier.query_store_after`.
-  max_chunk_age: '2h'
-  lifecycler:
-    tokens_file_path: '{{ cortex_wal_dir }}/tokens'
-    interface_names: {{ cortex_listen_interfaces | to_yaml }}
-{% endif %}
-{% if 'compactor' in cortex_target_modules %}
+{% if 'compactor' in cortex_target_modules or 'all' == cortex_target_modules %}
 # ---------------------- Compactor ------------------------
 compactor:
   # Necessary only the first time 1.7.0 version starts.
   block_deletion_marks_migration_enabled: false
 
 {% endif %}
-{% if 'purger' in cortex_target_modules %}
+{% if 'purger' in cortex_target_modules or 'all' == cortex_target_modules %}
 # ---------------------- Purger ---------------------------
 purger:
   enable: true
