@@ -1,5 +1,15 @@
 ---
+target: '{{ cortex_target_modules | join(",") }}'
 auth_enabled: false
+
+# ---------------------- MemberList -----------------------
+memberlist:
+  node_name: '{{ hostname }}'
+
+# ---------------------- Configs --------------------------
+configs:
+  database:
+    uri: 'memory://'
 
 # ---------------------- Limits ---------------------------
 limits:
@@ -8,14 +18,6 @@ limits:
   max_series_per_metric: 100000
   # Helps with big purger queries
   max_chunks_per_query: 7000000
-
-# ---------------------- MemberList -----------------------
-memberlist:
-  node_name: '{{ hostname }}'
-
-# ---------------------- API ------------------------------
-api:
-  response_compression_enabled: true
 
 # ---------------------- Server ---------------------------
 server:
@@ -40,7 +42,7 @@ storage:
   engine: 'chunks'
   cassandra:
     addresses: '{{ cortex_cassandra_nodes | join(',') | trim }}'
-    port: {{ cortex_cassandra_port | mandatory }}
+    port: {{ cortex_cassandra_port | mandatory | int }}
     SSL: false
     auth: false
     keyspace: '{{ cortex_storage_keyspace_name }}'
@@ -79,6 +81,7 @@ chunk_store:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
 
+{% if 'querier' in cortex_target_modules %}
 # ---------------------- Querier --------------------------
 querier:
   max_samples: 1000000000
@@ -87,28 +90,30 @@ querier:
   # Should be same as `ingester.max_chunk_age`.
   query_store_after: '2h'
 
+{% endif %}
+{% if 'query-frontend' in cortex_target_modules %}
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
   frontend_address: '{{ cortex_query_frontend_addr }}:{{ cortex_query_frontend_port }}'
   match_max_concurrent: true
 
+{% endif %}
+{% if 'table-manager' in cortex_target_modules %}
 # ---------------------- Table Manager --------------------
 table_manager:
   retention_deletes_enabled: true
   retention_period: '{{ cortex_storage_retention_period }}'
 
-# ---------------------- Configs --------------------------
-configs:
-  database:
-    # TODO use postgres
-    uri: 'memory://'
-
+{% endif %}
+{% if 'distributor' in cortex_target_modules %}
 # ---------------------- Distributor ----------------------
 distributor:
   # Low timeout causes ingester `context deadline exceeded`.
   # Should be the same as `querier.query_store_after`.
   remote_timeout: '4s'
 
+{% endif %}
+{% if 'ingester' in cortex_target_modules %}
 # ---------------------- Ingester -------------------------
 ingester:
   spread_flushes: true
@@ -118,17 +123,21 @@ ingester:
   # Should be same as `querier.query_store_after`.
   max_chunk_age: '2h'
   lifecycler:
-    interface_names: {{ cortex_listen_interfaces | to_yaml }}
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
-
+    interface_names: {{ cortex_listen_interfaces | to_yaml }}
+{% endif %}
+{% if 'compactor' in cortex_target_modules %}
 # ---------------------- Compactor ------------------------
 compactor:
   # Necessary only the first time 1.7.0 version starts.
   block_deletion_marks_migration_enabled: false
 
+{% endif %}
+{% if 'purger' in cortex_target_modules %}
 # ---------------------- Purger ---------------------------
 purger:
   enable: true
   num_workers: 2
   object_store_type: 'inmemory'
   delete_request_cancel_period: '5m'
+{% endif %}
