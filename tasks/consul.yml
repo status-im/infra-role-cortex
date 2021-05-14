@@ -5,7 +5,7 @@
     consul_config_name: '{{ cortex_service_name }}'
     consul_services:
       - name: '{{ cortex_service_name }}'
-        tags: ['cortex', 'metrics']
+        tags: '{{ ["cortex", "metrics"] + cortex_target_modules }}'
         port: '{{ cortex_listen_port }}'
         address: '{{ ansible_local.tinc.vpn_ip }}'
         checks:
