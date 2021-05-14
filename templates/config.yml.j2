@@ -90,6 +90,9 @@ distributor:
   # Low timeout causes ingester `context deadline exceeded`.
   # Should be the same as `querier.query_store_after`.
   remote_timeout: '4s'
+  # High Availability Tracker deduplicates samples from redundant Prometheus servers.
+  ha_tracker:
+    enable_ha_tracker: true
 
 {% endif %}
 {% if 'ingester' in cortex_target_modules or 'all' == cortex_target_modules %}
