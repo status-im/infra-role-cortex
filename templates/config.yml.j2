@@ -37,6 +37,52 @@ server:
   grpc_server_min_time_between_pings: 5s
   grpc_server_ping_without_stream_allowed: true
 
+{% if 'querier' in cortex_target_modules or 'ingester' in cortex_target_modules or 'all' == cortex_target_modules %}
+# ---------------------- Storage --------------------------
+storage:
+  engine: 'chunks'
+  cassandra:
+    addresses: '{{ cortex_cassandra_nodes | join(',') | trim }}'
+    port: {{ cortex_cassandra_port | mandatory | int }}
+    SSL: false
+    auth: false
+    keyspace: '{{ cortex_storage_keyspace_name }}'
+    consistency: '{{ cortex_storage_consistency }}'
+    replication_factor: {{ cortex_storage_replication_factor }}
+    timeout: '20s'
+    max_retries: 2
+    num_connections: 2
+  index_queries_cache_config:
+    memcached:
+      batch_size: 16384
+      parallelism: 10
+    memcached_client:
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
+
+  # Required by purger module
+  delete_store:
+    store: 'cassandra'
+    requests_table_name: 'delete_requests'
+
+# ---------------------- Chunks ---------------------------
+chunk_store:
+  chunk_cache_config:
+    memcached:
+      batch_size: 16384
+      parallelism: 10
+    memcached_client:
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
+  write_dedupe_cache_config:
+    memcached:
+      batch_size: 16384
+      parallelism: 10
+    memcached_client:
+      addresses: '{{ cortex_memcached_addresses | join(',') }}'
+      timeout: '500ms'
+
+{% endif %}
 {% if 'querier' in cortex_target_modules or 'all' == cortex_target_modules %}
 # ---------------------- Querier --------------------------
 querier:
@@ -107,50 +153,6 @@ ingester:
   lifecycler:
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
-
-# ---------------------- Storage --------------------------
-storage:
-  engine: 'chunks'
-  cassandra:
-    addresses: '{{ cortex_cassandra_nodes | join(',') | trim }}'
-    port: {{ cortex_cassandra_port | mandatory | int }}
-    SSL: false
-    auth: false
-    keyspace: '{{ cortex_storage_keyspace_name }}'
-    consistency: '{{ cortex_storage_consistency }}'
-    replication_factor: {{ cortex_storage_replication_factor }}
-    timeout: '20s'
-    max_retries: 2
-    num_connections: 2
-  index_queries_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
-
-  # Required by purger module
-  delete_store:
-    store: 'cassandra'
-    requests_table_name: 'delete_requests'
-
-# ---------------------- Chunks ---------------------------
-chunk_store:
-  chunk_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
-  write_dedupe_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
 
 {% endif %}
 {% if 'compactor' in cortex_target_modules or 'all' == cortex_target_modules %}
