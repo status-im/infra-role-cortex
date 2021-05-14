@@ -9,6 +9,7 @@
   with_items:
     - '{{ cortex_config_dir }}'
     - '{{ cortex_data_dir }}'
+    - '{{ cortex_wal_dir }}'
 
 - name: Create Cortex configuration
   template:
