@@ -19,7 +19,7 @@ cortex_target_modules: ['all']
 cortex_log_level: 'error'
 cortex_listen_port: 9092
 cortex_grpc_port: 9095
-cortex_listen_interfaces: ['tun0']
+cortex_listen_interfaces: ['wg0']
 
 # Storage
 cortex_storage_keyspace_name: 'cortex_metrics'

@@ -7,7 +7,7 @@
       - name: '{{ cortex_service_name }}'
         tags: '{{ ["cortex", "metrics"] + cortex_target_modules }}'
         port: '{{ cortex_listen_port }}'
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
           # cortex frontend workers need GRPC port
           grpc_port: '{{ cortex_grpc_port | string }}'

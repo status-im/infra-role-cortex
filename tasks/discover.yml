@@ -22,7 +22,7 @@
     cortex_cassandra_nodes: |
       {{ cassandra_services.json
       | map(attribute="ServiceAddress")
-      | reject("equalto", ansible_local.tinc.vpn_ip)
+      | reject("equalto", ansible_local.wireguard.vpn_ip)
       | list }}
     cortex_cassandra_port: |
       {{ cassandra_services.json
