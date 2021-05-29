@@ -7,9 +7,9 @@ cortex_schema_file: '{{ cortex_config_dir }}/schema.yml'
 cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_wal_dir: '/var/tmp/{{ cortex_service_name }}/wal'
 
-cortex_version: '1.8.1'
-cortex_bin_url: 'https://status-misc.ams3.digitaloceanspaces.com/cortex-linux-amd64-v{{ cortex_version }}'
-cortex_bin_sha256: 'cd87e309890465dbd06a3e647f89243f74a548a401e9e0cb265e6142e2c144ea'
+cortex_version: '1.9.0'
+cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
+cortex_bin_sha256: '324d3608886271f4294342d14a71f8efe7550b0e57dcc2f6fd481ced240a8d69'
 cortex_bin_path: '/usr/local/bin/cortex'
 
 # List of modules/services to load at startup.
