@@ -26,3 +26,4 @@
     owner: '{{ cortex_service_user }}'
     group: 'adm'
     mode: '0640'
+  when: cortex_storage_type == 'chunk'

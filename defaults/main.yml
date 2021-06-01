@@ -21,12 +21,21 @@ cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 
-# Storage
-cortex_storage_keyspace_name: 'cortex_metrics'
-cortex_storage_consistency: 'QUORUM'
-cortex_storage_replication_factor: 1
+# Storage: chunk or block
+#cortex_storage_type: ~
 # Must be a multiple of periodic table duration, see schema.
 cortex_storage_retention_period: '25w'
+
+# Chunk Storage
+#cortex_chunk_storage_keyspace_name: 'cortex_metrics'
+#cortex_chunk_storage_consistency: 'QUORUM'
+#cortex_chunk_storage_replication_factor: 1
+
+# Block Storage
+#cortex_block_storage_endpoint: 'ams3.digitaloceanspaces.com'
+#cortex_block_storage_bucket: ~
+#cortex_block_storage_key_id: ~
+#cortex_block_storage_secret: ~
 
 # AlertManager configuration
 cortex_alertmanager_url: ~
