@@ -15,6 +15,7 @@
 - name: Get Cassandra service addresses
   uri:
     url: '{{ consul_catalog_url }}/service/cassandra'
+  when: cortex_storage_type == 'chunk'
   register: cassandra_services
 
 - name: Extract Cassandra IP and port
@@ -28,6 +29,7 @@
       {{ cassandra_services.json
       | map(attribute="ServicePort")
       | first | trim }}
+  when: cortex_storage_type == 'chunk'
 
 - when: >
     "all" == cortex_target_modules or

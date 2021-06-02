@@ -37,18 +37,19 @@ server:
   grpc_server_min_time_between_pings: 5s
   grpc_server_ping_without_stream_allowed: true
 
-{% if cortex_storage_type == 'block' %}
 # ---------------------- Storage --------------------------
 storage:
-  engine: blocks
+  engine: '{{ cortex_storage_type }}'
 
+{% if cortex_storage_type == 'blocks' %}
+{% if 'ingester' in cortex_target_modules or 'store-gateway' in cortex_target_modules or ['all'] == cortex_target_modules %}
 blocks_storage:
   backend: 's3'
   s3:
-    endpoint: '{{ cortex_block_storage_endpoint }}'
-    bucket_name: '{{ cortex_block_storage_bucket | mandatory }}'
-    access_key_id: '{{ cortex_block_storage_key_id | mandatory }}'
-    secret_access_key: '{{ cortex_block_storage_secret | mandatory }}'
+    endpoint: '{{ cortex_blocks_storage_endpoint }}'
+    bucket_name: '{{ cortex_blocks_storage_bucket | mandatory }}'
+    access_key_id: '{{ cortex_blocks_storage_key_id | mandatory }}'
+    secret_access_key: '{{ cortex_blocks_storage_secret | mandatory }}'
   bucket_store:
     index_cache:
       backend: 'memcached'
@@ -67,7 +68,8 @@ blocks_storage:
         timeout: '500ms'
 
 {% endif %}
-{% if cortex_storage_type == 'chunk' %} 
+{% endif %}
+{% if cortex_storage_type == 'chunks' %}
 storage:
   engine: 'chunks'
   cassandra:
@@ -75,9 +77,9 @@ storage:
     port: {{ cortex_cassandra_port | mandatory | int }}
     SSL: false
     auth: false
-    keyspace: '{{ cortex_chunk_storage_keyspace_name }}'
-    consistency: '{{ cortex_chunk_storage_consistency }}'
-    replication_factor: {{ cortex_chunk_storage_replication_factor }}
+    keyspace: '{{ cortex_chunks_storage_keyspace_name }}'
+    consistency: '{{ cortex_chunks_storage_consistency }}'
+    replication_factor: {{ cortex_chunks_storage_replication_factor }}
     timeout: '20s'
     max_retries: 2
     num_connections: 2
@@ -111,7 +113,7 @@ chunk_store:
       addresses: '{{ cortex_memcached_addresses | join(',') }}'
       timeout: '500ms'
 
-{% if 'table-manager' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'table-manager' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Table Manager --------------------
 table_manager:
   retention_deletes_enabled: true
@@ -119,7 +121,7 @@ table_manager:
 
 {% endif %}
 {% endif %}
-{% if 'querier' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Querier --------------------------
 querier:
   max_samples: 1000000000
@@ -134,13 +136,13 @@ frontend_worker:
   match_max_concurrent: true
 
 {% endif %}
-{% if 'querier' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Store Gateway --------------------
 store_gateway:
   sharding_enabled: true
 
 {% endif %}
-{% if 'query-frontend' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'query-frontend' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Query Frontend -------------------
 frontend:
   max_outstanding_per_tenant: 400
@@ -165,7 +167,7 @@ query_range:
         timeout: '500ms'
 
 {% endif %}
-{% if 'distributor' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Distributor ----------------------
 distributor:
   # Low timeout causes ingester `context deadline exceeded`.
@@ -176,7 +178,7 @@ distributor:
     enable_ha_tracker: true
 
 {% endif %}
-{% if 'ingester' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'ingester' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Ingester -------------------------
 ingester:
   spread_flushes: true
@@ -190,7 +192,7 @@ ingester:
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
 
-{% if cortex_storage_type == 'chunk' %} 
+{% if cortex_storage_type == 'chunks' %}
   walconfig:
     wal_enabled: true
     checkpoint_enabled: true
@@ -200,7 +202,7 @@ ingester:
 
 {% endif %}
 {% endif %}
-{% if 'purger' in cortex_target_modules or 'all' == cortex_target_modules %}
+{% if 'purger' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Purger ---------------------------
 purger:
   enable: true

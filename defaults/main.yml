@@ -6,6 +6,7 @@ cortex_config_file: '{{ cortex_config_dir }}/config.yml'
 cortex_schema_file: '{{ cortex_config_dir }}/schema.yml'
 cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_wal_dir: '/var/tmp/{{ cortex_service_name }}/wal'
+cortex_compact_dir: '/var/tmp/{{ cortex_service_name }}/compact'
 
 cortex_version: '1.9.0'
 cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
@@ -21,21 +22,21 @@ cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 
-# Storage: chunk or block
-#cortex_storage_type: ~
+# Storage: chunks or blocks
+cortex_storage_type: 'blocks'
 # Must be a multiple of periodic table duration, see schema.
 cortex_storage_retention_period: '25w'
 
-# Chunk Storage
-#cortex_chunk_storage_keyspace_name: 'cortex_metrics'
-#cortex_chunk_storage_consistency: 'QUORUM'
-#cortex_chunk_storage_replication_factor: 1
+# Chunks Storage
+#cortex_chunks_storage_keyspace_name: 'cortex_metrics'
+#cortex_chunks_storage_consistency: 'QUORUM'
+#cortex_chunks_storage_replication_factor: 1
 
-# Block Storage
-#cortex_block_storage_endpoint: 'ams3.digitaloceanspaces.com'
-#cortex_block_storage_bucket: ~
-#cortex_block_storage_key_id: ~
-#cortex_block_storage_secret: ~
+# Blocks Storage
+#cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
+#cortex_blocks_storage_bucket: ~
+#cortex_blocks_storage_key_id: ~
+#cortex_blocks_storage_secret: ~
 
 # AlertManager configuration
 cortex_alertmanager_url: ~
