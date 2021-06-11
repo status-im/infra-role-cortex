@@ -39,9 +39,8 @@ server:
 
 # ---------------------- Storage --------------------------
 storage:
-  engine: '{{ cortex_storage_type }}'
+  engine: 'blocks'
 
-{% if cortex_storage_type == 'blocks' %}
 {% if 'ingester' in cortex_target_modules or 'store-gateway' in cortex_target_modules or ['all'] == cortex_target_modules %}
 blocks_storage:
   backend: 's3'
@@ -67,59 +66,6 @@ blocks_storage:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
         timeout: '500ms'
 
-{% endif %}
-{% endif %}
-{% if cortex_storage_type == 'chunks' %}
-storage:
-  engine: 'chunks'
-  cassandra:
-    addresses: '{{ cortex_cassandra_nodes | join(',') | trim }}'
-    port: {{ cortex_cassandra_port | mandatory | int }}
-    SSL: false
-    auth: false
-    keyspace: '{{ cortex_chunks_storage_keyspace_name }}'
-    consistency: '{{ cortex_chunks_storage_consistency }}'
-    replication_factor: {{ cortex_chunks_storage_replication_factor }}
-    timeout: '20s'
-    max_retries: 2
-    num_connections: 2
-  index_queries_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
-
-  # Required by purger module
-  delete_store:
-    store: 'cassandra'
-    requests_table_name: 'delete_requests'
-
-# ---------------------- Chunks ---------------------------
-chunk_store:
-  chunk_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
-  write_dedupe_cache_config:
-    memcached:
-      batch_size: 16384
-      parallelism: 10
-    memcached_client:
-      addresses: '{{ cortex_memcached_addresses | join(',') }}'
-      timeout: '500ms'
-
-{% if 'table-manager' in cortex_target_modules or ['all'] == cortex_target_modules %}
-# ---------------------- Table Manager --------------------
-table_manager:
-  retention_deletes_enabled: true
-  retention_period: '{{ cortex_storage_retention_period }}'
-
-{% endif %}
 {% endif %}
 {% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Querier --------------------------
@@ -192,15 +138,6 @@ ingester:
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
 
-{% if cortex_storage_type == 'chunks' %}
-  walconfig:
-    wal_enabled: true
-    checkpoint_enabled: true
-    recover_from_wal: true
-    checkpoint_duration: '30m'
-    wal_dir: '{{ cortex_wal_dir }}'
-
-{% endif %}
 {% endif %}
 {% if 'purger' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Purger ---------------------------

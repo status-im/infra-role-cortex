@@ -8,16 +8,10 @@ It's essentially a better storage backend for Prometheus that in our case uses [
 
 The absolute minimum to configure is:
 ```yml
-cortex_storage_keyspace_name: 'cortex_metrics'
-cortex_storage_consistency: 'QUORUM'
-cortex_storage_replication_factor: 3
-cortex_storage_retention_period: '50w' 
-```
-You also should configure optional AlertManager:
-```yml
-cortex_alertmanager_url: 'https://alerts.example.org/
-cortex_alertmanager_addr: 'localhost'
-cortex_alertmanager_port: 9093
+cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
+cortex_blocks_storage_bucket: 'my-metrics-storage-bucket'
+cortex_blocks_storage_key_id: 'super-secret-id'
+cortex_blocks_storage_secret: 'super-secret-key'
 ```
 
 # Management
@@ -55,7 +49,3 @@ admin@master-01.do-ams3.metrics.hq:~ % curl -s localhost:9092/config | grep keys
 Cortex also exposes a very basic UI on the root of it's main port(`9092` by default).
 
 The most interesting paths would include `/config`, `/services`, and `/ingester/ring`.
-
-# Known Issues
-
-* Prometheus endpoints require `X-Scope-OrgID` header to be set. See: [cortex#3343)](https://github.com/cortexproject/cortex/pull/3343)

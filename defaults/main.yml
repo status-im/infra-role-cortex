@@ -22,16 +22,6 @@ cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 
-# Storage: chunks or blocks
-cortex_storage_type: 'blocks'
-# Must be a multiple of periodic table duration, see schema.
-cortex_storage_retention_period: '25w'
-
-# Chunks Storage
-#cortex_chunks_storage_keyspace_name: 'cortex_metrics'
-#cortex_chunks_storage_consistency: 'QUORUM'
-#cortex_chunks_storage_replication_factor: 1
-
 # Blocks Storage
 #cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
 #cortex_blocks_storage_bucket: ~
