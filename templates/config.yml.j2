@@ -117,7 +117,7 @@ distributor:
   remote_timeout: '4s'
   # High Availability Tracker deduplicates samples from redundant Prometheus servers.
   ha_tracker:
-    enable_ha_tracker: true
+    enable_ha_tracker: false
 
 {% endif %}
 {% if 'ingester' in cortex_target_modules or ['all'] == cortex_target_modules %}
