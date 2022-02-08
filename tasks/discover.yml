@@ -2,7 +2,7 @@
 - name: Get Memcached service addresses
   uri:
     # WARNING: The tag is important to not match other clusters.
-    url: '{{ consul_catalog_url }}/service/memcached?tag=cortex'
+    url: '{{ cortex_consul_catalog_url }}/service/memcached?tag=cortex'
   register: memcached_services
 
 - name: Extract Memcached IP and port
@@ -18,7 +18,7 @@
   block:
     - name: Get Query Frontend service addresses
       uri:
-        url: '{{ consul_catalog_url }}/service/cortex?tag=query-frontend'
+        url: '{{ cortex_consul_catalog_url }}/service/cortex?tag=query-frontend'
       register: qf_services
 
     - name: Extract Query Frontend IP and port

@@ -33,4 +33,10 @@ cortex_alertmanager_url: ~
 cortex_alertmanager_addr: ~
 cortex_alertmanager_port: ~
 
-consul_catalog_url: 'http://localhost:8500/v1/catalog'
+# Consul
+cortex_consul_port: 8500
+cortex_consul_host: 'localhost'
+cortex_consul_addr: '{{ cortex_consul_host }}:{{ cortex_consul_port }}'
+cortex_consul_catalog_url: 'http://{{ cortex_consul_addr }}/v1/catalog'
+cortex_consul_timeout: '20s'
+#cortex_consul_acl_token: ~
