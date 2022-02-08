@@ -2,10 +2,6 @@
 target: '{{ cortex_target_modules | join(",") }}'
 auth_enabled: false
 
-# ---------------------- MemberList -----------------------
-memberlist:
-  node_name: '{{ hostname }}'
-
 # ---------------------- Configs --------------------------
 configs:
   database:
