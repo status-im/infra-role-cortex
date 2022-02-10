@@ -17,7 +17,7 @@ WorkingDirectory={{ cortex_data_dir }}
 RuntimeDirectory={{ cortex_service_name }}
 PermissionsStartOnly=True
 LimitNOFILE=1048576
-Environment=CONSUL_HTTP_TOKEN={{ wireguard_consul_acl_token | mandatory }}
+Environment=CONSUL_HTTP_TOKEN={{ cortex_consul_acl_token | mandatory }}
 
 [Install]
 WantedBy=multi-user.target
