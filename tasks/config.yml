@@ -18,3 +18,11 @@
     owner: '{{ cortex_service_user }}'
     group: 'adm'
     mode: '0640'
+
+- name: Create Cortex runtime config
+  template:
+    src: 'runtime.yml.j2'
+    dest: '{{ cortex_runtime_file }}'
+    owner: '{{ cortex_service_user }}'
+    group: 'adm'
+    mode: '0640'
