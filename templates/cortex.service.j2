@@ -10,12 +10,14 @@ User={{ cortex_service_user }}
 ExecStart={{ cortex_bin_path }} \
     -config.file={{ cortex_config_file }} \
     -runtime-config.file={{ cortex_runtime_file }} \
-    -schema-config-file={{ cortex_schema_file }}
+    -schema-config-file={{ cortex_schema_file }} \
+    -consul.acl-token=${CONSUL_HTTP_TOKEN}
 Restart=on-failure
 WorkingDirectory={{ cortex_data_dir }}
 RuntimeDirectory={{ cortex_service_name }}
 PermissionsStartOnly=True
 LimitNOFILE=1048576
+Environment=CONSUL_HTTP_TOKEN={{ cortex_consul_acl_token | mandatory }}
 
 [Install]
 WantedBy=multi-user.target

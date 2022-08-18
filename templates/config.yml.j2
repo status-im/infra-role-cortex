@@ -123,7 +123,8 @@ distributor:
   ha_tracker:
     enable_ha_tracker: false
 
-{% include "ring.conf.j2" %}
+  ring:
+{% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
 {% if 'ingester' in cortex_target_modules or ['all'] == cortex_target_modules %}
@@ -139,7 +140,8 @@ ingester:
   lifecycler:
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
-{% include "ring.conf.j2" %}
+    ring:
+{% filter indent(6, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
 {% if 'purger' in cortex_target_modules or ['all'] == cortex_target_modules %}

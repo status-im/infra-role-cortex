@@ -37,6 +37,7 @@ cortex_alertmanager_port: ~
 # ETCD
 cortex_etcd_user: 'cortex'
 #cortex_etcd_pass: ~
+# TODO Use Consul to query for ETCD endpoints.
 cortex_etcd_endpoints: []
 
 # Consul
