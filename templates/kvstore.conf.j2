@@ -1,14 +1,11 @@
 kvstore:
-  store: 'multi'
+  store: multi
   etcd:
 {% if cortex_etcd_pass is defined %}
-    username: '{{ cortex_etcd_user }}'
-    password: '{{ cortex_etcd_pass }}'
+    username: {{ cortex_etcd_user }}
+    password: {{ cortex_etcd_pass }}
 {% endif %}
-    endpoints:
-{% for endpoint in cortex_etcd_endpoints %}
-      - {{ endpoint }}
-{% endfor %}
+    endpoints: {{ cortex_etcd_addresses | to_yaml }}
   consul:
     host: {{ cortex_consul_addr }}
     # WARNING: Has no effect currently.

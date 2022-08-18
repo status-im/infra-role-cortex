@@ -3,12 +3,22 @@
   uri:
     # WARNING: The tag is important to not match other clusters.
     url: '{{ cortex_consul_catalog_url }}/service/memcached?tag=cortex'
-  register: memcached_services
+  register: cortex_memcached_services_raw
+
+- name: Get ETCD service addresses
+  uri:
+    # WARNING: The tag is important to not match other clusters.
+    url: '{{ cortex_consul_catalog_url }}/service/etcd-api?tag=cortex'
+  register: cortex_etcd_services_raw
 
 - name: Extract Memcached IP and port
   set_fact:
     cortex_memcached_addresses: |
-      {{ memcached_services.json 
+      {{ cortex_memcached_services_raw.json
+      | json_query("[].[ServiceAddress, ServicePort]")
+      | map('join', ':') | list }}
+    cortex_etcd_addresses: |
+      {{ cortex_etcd_services_raw.json
       | json_query("[].[ServiceAddress, ServicePort]")
       | map('join', ':') | list }}
 
