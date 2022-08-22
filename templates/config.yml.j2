@@ -130,13 +130,6 @@ distributor:
 {% if 'ingester' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Ingester -------------------------
 ingester:
-  spread_flushes: true
-  flush_period: '1m'
-  retain_period: '5m'
-  # Lowers amount of RAM used at cost of storage I/O.
-  # Should be same as `querier.query_store_after`.
-  max_chunk_age: '2h'
-
   lifecycler:
     tokens_file_path: '{{ cortex_wal_dir }}/tokens'
     interface_names: {{ cortex_listen_interfaces | to_yaml }}
