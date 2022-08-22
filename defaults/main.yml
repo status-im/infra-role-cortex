@@ -18,7 +18,7 @@ cortex_bin_path: '/usr/local/bin/cortex'
 cortex_target_modules: ['all']
 
 # Viable values: debug, info, warn, error
-cortex_log_level: 'error'
+cortex_log_level: 'info'
 cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
