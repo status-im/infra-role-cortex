@@ -4,13 +4,21 @@
     src: 'cortex.service.j2'
     dest: '/lib/systemd/system/{{ cortex_service_name }}.service'
     mode: 0644
+  register: cortex_service
 
 - name: Reload Systemctl
+  when: cortex_service.changed
   command: systemctl daemon-reload
 
 - name: (Re)Start Service
+  throttle: 1
   service:
     name: '{{ cortex_service_name }}.service'
-    state: restarted
     enabled: true
-  throttle: 1
+    state: |-
+      {{ (
+          cortex_binary.changed or
+          cortex_config.changed or
+          cortex_runtime.changed or
+          cortex_service.changed
+         ) | ternary("restarted", "started") }}

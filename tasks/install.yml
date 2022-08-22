@@ -5,6 +5,7 @@
     dest: '{{ cortex_bin_path }}'
     checksum: 'sha256:{{ cortex_bin_sha256 }}'
     mode: '0755'
+  register: cortex_binary
 
 - name: Create Service User
   user:
