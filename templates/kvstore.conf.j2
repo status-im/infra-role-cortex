@@ -5,7 +5,7 @@ kvstore:
     username: {{ cortex_etcd_user }}
     password: {{ cortex_etcd_pass }}
 {% endif %}
-    endpoints: {{ cortex_etcd_addresses | to_yaml }}
+    endpoints: {{ cortex_etcd_addresses | sort | to_yaml }}
   consul:
     host: {{ cortex_consul_addr }}
     # WARNING: Has no effect currently.
