@@ -72,7 +72,6 @@ querier:
   max_samples: 1000000000
   max_concurrent: 100
   timeout: '2m'
-  # Should be same as `ingester.max_chunk_age`.
   query_store_after: '2h'
 
 # ---------------------- Frontend Worker ------------------
@@ -116,8 +115,7 @@ query_range:
 # ---------------------- Distributor ----------------------
 distributor:
   # Low timeout causes ingester `context deadline exceeded`.
-  # Should be the same as `querier.query_store_after`.
-  remote_timeout: '4s'
+  remote_timeout: '6s'
   # High Availability Tracker deduplicates samples from redundant Prometheus servers.
   ha_tracker:
     enable_ha_tracker: true
