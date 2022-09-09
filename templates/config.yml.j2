@@ -31,11 +31,6 @@ server:
   grpc_server_max_recv_msg_size: 104857600
   grpc_server_max_send_msg_size: 16777216
 
-  # Avoid RPC timeouts
-  grpc_server_keepalive_timeout: 120s
-  grpc_server_min_time_between_pings: 5s
-  grpc_server_ping_without_stream_allowed: true
-
 # ---------------------- Storage --------------------------
 storage:
   engine: 'blocks'
