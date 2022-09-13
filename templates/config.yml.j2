@@ -110,7 +110,7 @@ query_range:
 # ---------------------- Distributor ----------------------
 distributor:
   # Low timeout causes ingester `context deadline exceeded`.
-  remote_timeout: '6s'
+  remote_timeout: '20s'
   # High Availability Tracker deduplicates samples from redundant Prometheus servers.
   ha_tracker:
     enable_ha_tracker: true
