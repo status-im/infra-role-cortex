@@ -27,9 +27,11 @@ server:
   grpc_listen_port: {{ cortex_grpc_port | mandatory }}
   log_level: '{{ cortex_log_level }}'
 
-  # Big queries need bigger message size
+  # Big queries need bigger message size.
   grpc_server_max_recv_msg_size: 104857600
   grpc_server_max_send_msg_size: 16777216
+  # Bump gRPC concurrency to avoid delays.
+  grpc_server_max_concurrent_streams: 500
 
 # ---------------------- Storage --------------------------
 storage:
