@@ -111,10 +111,6 @@ query_range:
 distributor:
   # Low timeout causes ingester `context deadline exceeded`.
   remote_timeout: '30s'
-  # High Availability Tracker deduplicates samples from redundant Prometheus servers.
-  ha_tracker:
-    enable_ha_tracker: true
-{% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
   ring:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
