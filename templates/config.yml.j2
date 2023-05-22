@@ -18,6 +18,8 @@ limits:
   max_series_per_metric: 30000
   max_series_per_user: 5000000
   max_label_names_per_series: 30
+  # Delete blocks containing samples older than this.
+  compactor_blocks_retention_period: {{ cortex_blocks_storage_retention }}
 
 # ---------------------- Server ---------------------------
 server:

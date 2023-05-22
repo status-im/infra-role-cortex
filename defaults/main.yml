@@ -24,6 +24,7 @@ cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 
 # Blocks Storage
+cortex_blocks_storage_retention: 0
 #cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
 #cortex_blocks_storage_bucket: ~
 #cortex_blocks_storage_key_id: ~
