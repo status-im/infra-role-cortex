@@ -22,6 +22,7 @@ cortex_log_level: 'info'
 cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
+cortex_extra_after_services: ['wg-quick@wg0.service']
 
 # Blocks Storage
 cortex_blocks_storage_retention: 0
