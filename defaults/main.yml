@@ -4,14 +4,13 @@ cortex_service_user: 'cortex'
 cortex_config_dir: '/etc/{{ cortex_service_name }}'
 cortex_config_file: '{{ cortex_config_dir }}/config.yml'
 cortex_runtime_file: '{{ cortex_config_dir }}/runtime.yml'
-cortex_schema_file: '{{ cortex_config_dir }}/schema.yml'
 cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_wal_dir: '/var/tmp/{{ cortex_service_name }}/wal'
 cortex_compact_dir: '/var/tmp/{{ cortex_service_name }}/compact'
 
-cortex_version: '1.13.0'
+cortex_version: '1.15.3'
 cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
-cortex_bin_sha256: 'fcb38099fdeba42152b3cfbc86d2b85f8b21072cc3c525acd3a3461f49f400a0'
+cortex_bin_sha256: '581de467258ebff21c1728da59123e477a0328f1eb0f8216823f362774ef4c4a'
 cortex_bin_path: '/usr/local/bin/cortex'
 
 # List of modules/services to load at startup.
