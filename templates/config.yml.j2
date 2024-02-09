@@ -19,6 +19,8 @@ limits:
   max_label_names_per_series: 30
   # Delete blocks containing samples older than this.
   compactor_blocks_retention_period: {{ cortex_blocks_storage_retention }}
+  # Maximum accepted sample age before rejecting.
+  reject_old_samples_max_age: {{ cortex_old_samples_max_age }}
 
 # ---------------------- Runtime --------------------------
 runtime_config:
