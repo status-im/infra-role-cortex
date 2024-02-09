@@ -23,9 +23,12 @@ cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 cortex_extra_after_services: ['wg-quick@wg0.service']
 
-# Blocks Storage
-cortex_blocks_storage_retention: 0
+# Limits
+cortex_max_metadata_per_user: 8000
 cortex_old_samples_max_age: '2w'
+cortex_blocks_storage_retention: 0
+
+# Blocks Storage
 #cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
 #cortex_blocks_storage_bucket: ~
 #cortex_blocks_storage_key_id: ~

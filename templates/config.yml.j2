@@ -12,7 +12,7 @@ limits:
   ingestion_rate: 1000000
   ingestion_burst_size: 2000000
   # Max active metrics with meta per user, per ingester.
-  max_metadata_per_user: 32000
+  max_metadata_per_user: {{ cortex_max_metadata_per_user }}
   # Limit impact from high cardinality.
   max_series_per_metric: 30000
   max_series_per_user: 5000000
