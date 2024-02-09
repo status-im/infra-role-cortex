@@ -20,6 +20,12 @@ limits:
   # Delete blocks containing samples older than this.
   compactor_blocks_retention_period: {{ cortex_blocks_storage_retention }}
 
+# ---------------------- Runtime --------------------------
+runtime_config:
+  backend: filesystem
+  # WARNING: Assumes relative path to data dir.
+  file: '{{ cortex_runtime_file | basename }}'
+
 # ---------------------- Server ---------------------------
 server:
   http_listen_address: '0.0.0.0'
