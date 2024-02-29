@@ -26,6 +26,7 @@ cortex_extra_after_services: ['wg-quick@wg0.service']
 # Limits
 cortex_max_metadata_per_user: 8000
 cortex_old_samples_max_age: '2w'
+cortex_out_of_order_time_window: '0s'
 cortex_blocks_storage_retention: 0
 
 # Blocks Storage

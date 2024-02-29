@@ -20,7 +20,10 @@ limits:
   # Delete blocks containing samples older than this.
   compactor_blocks_retention_period: {{ cortex_blocks_storage_retention }}
   # Maximum accepted sample age before rejecting.
+  reject_old_samples: true
   reject_old_samples_max_age: {{ cortex_old_samples_max_age }}
+  # Allowed time window for ingestion of out-of-order samples.
+  out_of_order_time_window: {{ cortex_out_of_order_time_window }}
 
 # ---------------------- Runtime --------------------------
 runtime_config:
