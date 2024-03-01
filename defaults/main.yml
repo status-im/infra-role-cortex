@@ -29,6 +29,9 @@ cortex_old_samples_max_age: '2w'
 cortex_out_of_order_time_window: '0s'
 cortex_blocks_storage_retention: 0
 
+# Distributor
+cortex_dist_remote_timeout: '5s'
+
 # Blocks Storage
 #cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
 #cortex_blocks_storage_bucket: ~

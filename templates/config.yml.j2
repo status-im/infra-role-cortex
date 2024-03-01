@@ -123,8 +123,8 @@ query_range:
 {% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
 # ---------------------- Distributor ----------------------
 distributor:
-  # Low timeout causes ingester `context deadline exceeded`.
-  remote_timeout: '30s'
+  # This causes `context deadline exceeded` on push to ingesters.
+  remote_timeout: '{{ cortex_dist_remote_timeout }}'
 
   ring:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
