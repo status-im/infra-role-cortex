@@ -31,6 +31,10 @@ cortex_blocks_storage_retention: 0
 cortex_max_series_per_metric: 30000
 cortex_max_series_per_user: 5000000
 
+# Service Limits
+cortex_memory_ratio: 0.95
+cortex_memory_limit: '{{ (ansible_memtotal_mb * cortex_memory_ratio|float) | int }}MiB'
+
 # Distributor
 cortex_dist_remote_timeout: '5s'
 

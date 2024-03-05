@@ -15,6 +15,7 @@ WorkingDirectory={{ cortex_data_dir }}
 RuntimeDirectory={{ cortex_service_name }}
 PermissionsStartOnly=True
 LimitNOFILE=1048576
+Environment=GOMEMLIMIT={{ cortex_memory_limit | mandatory }}
 Environment=CONSUL_HTTP_TOKEN={{ cortex_consul_acl_token | mandatory }}
 
 [Install]
