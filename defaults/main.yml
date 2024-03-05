@@ -28,6 +28,8 @@ cortex_max_metadata_per_user: 8000
 cortex_old_samples_max_age: '2w'
 cortex_out_of_order_time_window: '0s'
 cortex_blocks_storage_retention: 0
+cortex_max_series_per_metric: 30000
+cortex_max_series_per_user: 5000000
 
 # Distributor
 cortex_dist_remote_timeout: '5s'

@@ -14,8 +14,8 @@ limits:
   # Max active metrics with meta per user, per ingester.
   max_metadata_per_user: {{ cortex_max_metadata_per_user }}
   # Limit impact from high cardinality.
-  max_series_per_metric: 30000
-  max_series_per_user: 5000000
+  max_series_per_metric: {{ cortex_max_series_per_metric }}
+  max_series_per_user: {{ cortex_max_series_per_user }}
   max_label_names_per_series: 30
   # Delete blocks containing samples older than this.
   compactor_blocks_retention_period: {{ cortex_blocks_storage_retention }}
