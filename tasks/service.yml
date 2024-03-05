@@ -19,6 +19,5 @@
       {{ (
           cortex_binary.changed or
           cortex_config.changed or
-          cortex_runtime.changed or
           cortex_service.changed
          ) | ternary("restarted", "started") }}

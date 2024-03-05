@@ -25,12 +25,6 @@ limits:
   # Allowed time window for ingestion of out-of-order samples.
   out_of_order_time_window: {{ cortex_out_of_order_time_window }}
 
-# ---------------------- Runtime --------------------------
-runtime_config:
-  backend: filesystem
-  # WARNING: Assumes relative path to data dir.
-  file: '{{ cortex_runtime_file | basename }}'
-
 # ---------------------- Server ---------------------------
 server:
   http_listen_address: '0.0.0.0'
@@ -93,6 +87,8 @@ frontend_worker:
 # ---------------------- Store Gateway --------------------
 store_gateway:
   sharding_enabled: true
+  sharding_ring:
+{% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
 {% if 'query-frontend' in cortex_target_modules or ['all'] == cortex_target_modules %}
@@ -130,7 +126,10 @@ distributor:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
-{% if 'ingester' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if 'ingester'    in cortex_target_modules
+   or 'distributor' in cortex_target_modules
+   or 'querier'     in cortex_target_modules
+   or ['all']       == cortex_target_modules %}
 # ---------------------- Ingester -------------------------
 ingester:
   lifecycler:

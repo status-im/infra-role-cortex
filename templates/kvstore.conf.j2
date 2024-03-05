@@ -1,17 +1,8 @@
 kvstore:
-  store: multi
+  store: etcd
   etcd:
 {% if cortex_etcd_pass is defined %}
     username: {{ cortex_etcd_user }}
     password: {{ cortex_etcd_pass }}
 {% endif %}
     endpoints: {{ cortex_etcd_addresses | sort | to_yaml }}
-  consul:
-    host: {{ cortex_consul_addr }}
-    # WARNING: Has no effect currently.
-    acl_token: {{ cortex_consul_acl_token | mandatory }}
-  multi:
-   primary: etcd
-   secondary: consul
-   mirror_enabled: true
-   mirror_timeout: 2s
