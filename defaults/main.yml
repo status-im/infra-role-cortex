@@ -21,6 +21,7 @@ cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
 cortex_extra_after_services: ['wg-quick@wg0.service']
+cortex_compression: 'gzip'
 
 # Limits
 cortex_max_metadata_per_user: 8000
@@ -33,9 +34,6 @@ cortex_max_series_per_user: 5000000
 # Service Limits
 cortex_memory_ratio: 0.95
 cortex_memory_limit: '{{ (ansible_memtotal_mb * cortex_memory_ratio|float) | int }}MiB'
-
-# Distributor
-cortex_dist_remote_timeout: '5s'
 
 # Blocks Storage
 #cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'

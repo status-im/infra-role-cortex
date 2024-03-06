@@ -85,6 +85,8 @@ querier:
   max_concurrent: 100
   timeout: '2m'
   query_store_after: '2h'
+  store_gateway_client:
+    grpc_compression: 'gzip'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
@@ -106,7 +108,9 @@ frontend:
   max_outstanding_per_tenant: 400
   log_queries_longer_than: 5s
   query_stats_enabled: true
+
   grpc_client_config:
+    grpc_compression: '{{ cortex_compression }}'
     max_recv_msg_size: 104857600
     max_send_msg_size: 16777216
 
@@ -133,6 +137,13 @@ distributor:
 
   ring:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
+
+{% endif %}
+{% if 'distributor' in cortex_target_modules
+   or 'querier'     in cortex_target_modules %}
+ingester_client:
+  grpc_client_config:
+    grpc_compression: '{{ cortex_compression }}'
 
 {% endif %}
 {% if 'ingester'    in cortex_target_modules
