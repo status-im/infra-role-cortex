@@ -123,7 +123,7 @@ query_range:
     cache:
       memcached:
         expiration: '12h'
-        batch_size: 1024
+        batch_size: 32768
         parallelism: 100
       memcached_client:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
