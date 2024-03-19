@@ -25,6 +25,11 @@ limits:
   # Allowed time window for ingestion of out-of-order samples.
   out_of_order_time_window: {{ cortex_out_of_order_time_window }}
 
+# ---------------------- Memberlist -----------------------
+memberlist:
+  node_name: {{ hostname }}
+  advertise_addr: {{ ansible_local.wireguard.address }}
+
 # ---------------------- Server ---------------------------
 server:
   http_listen_address: '0.0.0.0'
