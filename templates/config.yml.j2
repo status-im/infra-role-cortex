@@ -33,15 +33,11 @@ server:
   grpc_listen_port: {{ cortex_grpc_port | mandatory }}
   log_level: '{{ cortex_log_level }}'
 
-{% if 'ingester' in cortex_target_modules
-   or 'store-gateway' in cortex_target_modules
-   or ['all'] == cortex_target_modules %}
   # Big queries need bigger message size.
   grpc_server_max_recv_msg_size: 104857600
   grpc_server_max_send_msg_size: 104857600
   # Bump gRPC concurrency to avoid delays.
   grpc_server_max_concurrent_streams: 1000
-{% endif %}
 {% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
   grpc_server_max_connection_age: 2m
   grpc_server_max_connection_age_grace: 5m
