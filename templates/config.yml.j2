@@ -66,17 +66,14 @@ blocks_storage:
       backend: 'memcached'
       memcached:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
-        timeout: '500ms'
     chunks_cache:
       backend: 'memcached'
       memcached:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
-        timeout: '500ms'
     metadata_cache:
       backend: 'memcached'
       memcached:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
-        timeout: '500ms'
 
 {% endif %}
 {% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
@@ -130,7 +127,6 @@ query_range:
         parallelism: 100
       memcached_client:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
-        timeout: '500ms'
 
 {% endif %}
 {% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
