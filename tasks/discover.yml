@@ -2,7 +2,9 @@
 - name: Get Memcached service addresses
   uri:
     # WARNING: The tag is important to not match other clusters.
-    url: '{{ cortex_consul_catalog_url }}/service/memcached?tag=cortex'
+    url: '{{ cortex_consul_catalog_url }}/service/memcached?tag={{ cortex_memcached_tag }}'
+  vars:
+    cortex_memcached_tag: '{{ "cortex-ingester" if "ingester" in cortex_target_modules else "cortex-querier" }}'
   register: cortex_memcached_services_raw
 
 - name: Get ETCD service addresses
