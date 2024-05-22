@@ -55,6 +55,10 @@ storage:
 
 {% if 'ingester' in cortex_target_modules or 'store-gateway' in cortex_target_modules or ['all'] == cortex_target_modules %}
 blocks_storage:
+  tsdb:
+    # Should be equal or bigger than querier.query_store_after setting.
+    retention_period: '{{ cortex_ingester_retention_period }}'
+
   backend: 's3'
   s3:
     endpoint: '{{ cortex_blocks_storage_endpoint }}'
@@ -82,7 +86,7 @@ querier:
   max_samples: 1000000000
   max_concurrent: 100
   timeout: '2m'
-  query_store_after: '2h'
+  query_store_after: '{{ cortex_ingester_retention_period }}'
   store_gateway_client:
     grpc_compression: 'gzip'
 
