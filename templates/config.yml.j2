@@ -71,18 +71,6 @@ blocks_storage:
   bucket_store:
     bucket_index:
       enabled: true
-    index_cache:
-      backend: 'memcached'
-      memcached:
-        addresses: '{{ cortex_memcached_addresses | join(',') }}'
-    chunks_cache:
-      backend: 'memcached'
-      memcached:
-        addresses: '{{ cortex_memcached_addresses | join(',') }}'
-    metadata_cache:
-      backend: 'memcached'
-      memcached:
-        addresses: '{{ cortex_memcached_addresses | join(',') }}'
 
 {% endif %}
 {% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
