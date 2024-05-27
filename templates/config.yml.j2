@@ -66,6 +66,8 @@ blocks_storage:
     access_key_id: '{{ cortex_blocks_storage_key_id | mandatory }}'
     secret_access_key: '{{ cortex_blocks_storage_secret | mandatory }}'
   bucket_store:
+    bucket_index:
+      enabled: true
     index_cache:
       backend: 'memcached'
       memcached:
