@@ -53,7 +53,10 @@ server:
 storage:
   engine: 'blocks'
 
-{% if 'ingester' in cortex_target_modules or 'store-gateway' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if 'ingester'      in cortex_target_modules
+   or 'store-gateway' in cortex_target_modules
+   or 'compactor'     in cortex_target_modules
+   or 'all'           in cortex_target_modules %}
 blocks_storage:
   tsdb:
     # Should be equal or bigger than querier.query_store_after setting.
