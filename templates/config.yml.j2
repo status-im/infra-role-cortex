@@ -1,4 +1,4 @@
----
+
 target: '{{ cortex_target_modules | join(",") }}'
 auth_enabled: false
 
@@ -71,6 +71,11 @@ blocks_storage:
   bucket_store:
     bucket_index:
       enabled: true
+    chunks_cache:
+      backend: 'memcached'
+      memcached:
+        addresses: '{{ cortex_memcached_addresses | join(',') }}'
+        timeout: '200ms'
 
 {% endif %}
 {% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}

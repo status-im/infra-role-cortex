@@ -1,10 +1,17 @@
 ---
+- name: Get Consul data centers
+  uri:
+    url: '{{ consul_catalog_url }}/datacenters'
+  register: data_centers
+
 - name: Get Memcached service addresses
   uri:
     # WARNING: The tag is important to not match other clusters.
-    url: '{{ cortex_consul_catalog_url }}/service/memcached?tag={{ cortex_memcached_tag }}'
+    url: '{{ cortex_consul_catalog_url }}/service/memcached?tag={{ cortex_memcached_tag }}&dc={{ item }}'
+  with_items: '{{ data_centers.json }}'
   vars:
-    cortex_memcached_tag: '{{ "cortex-ingester" if "ingester" in cortex_target_modules else "cortex-querier" }}'
+    cortex_memcached_tag: |-
+      {{ "cortex-query" if "querier" in cortex_target_modules else "cortex-frontend" }}
   register: cortex_memcached_services_raw
 
 - name: Get ETCD service addresses
@@ -16,7 +23,8 @@
 - name: Extract Memcached IP and port
   set_fact:
     cortex_memcached_addresses: |
-      {{ cortex_memcached_services_raw.json
+      {{ cortex_memcached_services_raw.results
+      | sum(attribute="json", start=[])
       | json_query("[].[ServiceAddress, ServicePort]")
       | map('join', ':') | list }}
     cortex_etcd_addresses: |
