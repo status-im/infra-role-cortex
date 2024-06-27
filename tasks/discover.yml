@@ -32,6 +32,11 @@
       | json_query("[].[ServiceAddress, ServicePort]")
       | map('join', ':') | list }}
 
+- name: Verify ETCD services were found
+  assert:
+    that: '{{ cortex_etcd_addresses | length > 0 }}'
+    fail_msg: 'No ETCD nodes were discovered!'
+
 - when: >
     "all" == cortex_target_modules or
     "querier" in cortex_target_modules
