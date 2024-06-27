@@ -54,6 +54,7 @@ storage:
   engine: 'blocks'
 
 {% if 'ingester'      in cortex_target_modules
+   or 'querier'       in cortex_target_modules
    or 'store-gateway' in cortex_target_modules
    or 'compactor'     in cortex_target_modules
    or 'all'           in cortex_target_modules %}
@@ -68,6 +69,8 @@ blocks_storage:
     bucket_name: '{{ cortex_blocks_storage_bucket | mandatory }}'
     access_key_id: '{{ cortex_blocks_storage_key_id | mandatory }}'
     secret_access_key: '{{ cortex_blocks_storage_secret | mandatory }}'
+{% if 'querier'       in cortex_target_modules
+   or 'store-gateway' in cortex_target_modules %}
   bucket_store:
     bucket_index:
       enabled: true
@@ -76,6 +79,7 @@ blocks_storage:
       memcached:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
         timeout: '200ms'
+{% endif %}
 
 {% endif %}
 {% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
