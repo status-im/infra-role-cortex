@@ -12,7 +12,6 @@ cortex_blocks_storage_endpoint: 'ams3.digitaloceanspaces.com'
 cortex_blocks_storage_bucket: 'my-metrics-storage-bucket'
 cortex_blocks_storage_key_id: 'super-secret-id'
 cortex_blocks_storage_secret: 'super-secret-key'
-cortex_consul_acl_token: '1234abcd-1234-abcd-1234-1234abcd1234'
 ```
 
 # Management
