@@ -32,6 +32,14 @@ cortex_max_series_per_metric: 30000
 cortex_max_series_per_user: 5000000
 cortex_ingester_retention_period: 24h
 
+# Block Storage Chunks Cache - Memcached
+cortex_block_storage_cache_timeout: '100ms'
+cortex_block_storage_cache_max_get_multi_batch_size: 0
+cortex_block_storage_cache_max_idle_connections: 16
+cortex_block_storage_cache_max_async_concurrency: 50
+cortex_block_storage_cache_max_async_buffer_size: 10000
+cortex_block_storage_cache_max_get_multi_concurrency: 100
+
 # Service Limits
 cortex_memory_ratio: 0.95
 cortex_memory_limit: '{{ (ansible_memtotal_mb * cortex_memory_ratio|float) | int }}MiB'

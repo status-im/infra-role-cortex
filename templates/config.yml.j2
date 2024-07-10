@@ -78,7 +78,12 @@ blocks_storage:
       backend: 'memcached'
       memcached:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
-        timeout: '200ms'
+        timeout:                   {{ cortex_block_storage_cache_timeout }}
+        max_get_multi_batch_size:  {{ cortex_block_storage_cache_max_get_multi_batch_size }}
+        max_idle_connections:      {{ cortex_block_storage_cache_max_idle_connections }}
+        max_async_concurrency:     {{ cortex_block_storage_cache_max_async_concurrency }}
+        max_async_buffer_size:     {{ cortex_block_storage_cache_max_async_buffer_size }}
+        max_get_multi_concurrency: {{ cortex_block_storage_cache_max_get_multi_concurrency }}
 {% endif %}
 
 {% endif %}
