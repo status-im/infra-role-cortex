@@ -93,9 +93,10 @@ querier:
   max_samples: 1000000000
   max_concurrent: 100
   timeout: '2m'
+  # WARNING: This decides what time-range is requested from ingesters.
   query_store_after: '{{ cortex_ingester_retention_period }}'
   store_gateway_client:
-    grpc_compression: 'gzip'
+    grpc_compression: '{{ cortex_compression }}'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
