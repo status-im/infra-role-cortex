@@ -30,6 +30,7 @@ cortex_out_of_order_time_window: '0s'
 cortex_blocks_storage_retention: 0
 cortex_max_series_per_metric: 30000
 cortex_max_series_per_user: 5000000
+cortex_max_label_value_length: 2048
 cortex_ingester_retention_period: 24h
 
 # Block Storage Chunks Cache - Memcached
