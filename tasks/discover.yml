@@ -38,7 +38,6 @@
     fail_msg: 'No ETCD nodes were discovered!'
 
 - when: >
-    "all" == cortex_target_modules or
     "querier" in cortex_target_modules
   block:
     - name: Get Query Frontend service addresses

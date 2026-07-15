@@ -7,13 +7,21 @@ cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_wal_dir: '{{ cortex_data_dir }}/wal'
 cortex_compact_dir: '{{ cortex_data_dir }}/compact'
 
-cortex_version: '1.18.1'
-cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v1.18.1/cortex-linux-amd64'
-cortex_bin_sha256: '5df4af4ad8cd9bfd32d04a3cd88aaf20486020f4a47983f86faf6efb629dddda'
+cortex_version: '1.19.1'
+cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v1.19.1/cortex-linux-amd64'
+cortex_bin_sha256: 'c79ecbc674d491e5a58bd859332685f119860f6a9e2aee01312b8b7deeaa66f9'
 cortex_bin_path: '/usr/local/bin/cortex'
 
 # List of modules/services to load at startup.
-cortex_target_modules: ['all']
+cortex_target_modules:
+  - 'query-frontend'
+  - 'querier'
+  - 'ingester'
+  - 'distributor'
+  - 'purger'
+  - 'store-gateway'
+  - 'ruler'
+  - 'compactor'
 
 # Viable values: debug, info, warn, error
 cortex_log_level: 'info'
@@ -37,9 +45,10 @@ cortex_ingester_retention_period: 24h
 cortex_block_storage_cache_timeout: '100ms'
 cortex_block_storage_cache_max_get_multi_batch_size: 0
 cortex_block_storage_cache_max_idle_connections: 16
-cortex_block_storage_cache_max_async_concurrency: 50
+cortex_block_storage_cache_max_async_concurrency: 3
 cortex_block_storage_cache_max_async_buffer_size: 10000
 cortex_block_storage_cache_max_get_multi_concurrency: 100
+cortex_block_storage_tsdb_wal_compression_type: '' # snappy, zstd, ''
 
 # Service Limits
 cortex_memory_ratio: 0.95

@@ -10,6 +10,7 @@
     - '{{ cortex_config_dir }}'
     - '{{ cortex_data_dir }}'
     - '{{ cortex_wal_dir }}'
+    - '{{ cortex_compact_dir }}'
 
 - name: Create Cortex configuration
   template:

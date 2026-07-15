@@ -1,4 +1,14 @@
-
+{% set cortex_has_blocks_storage = 'ingester'       in cortex_target_modules
+                                or 'querier'        in cortex_target_modules
+                                or 'store-gateway'  in cortex_target_modules
+                                or 'compactor'      in cortex_target_modules %}
+{% set cortex_has_querier        = 'querier'        in cortex_target_modules %}
+{% set cortex_has_query_frontend = 'query-frontend' in cortex_target_modules %}
+{% set cortex_has_distributor    = 'distributor'    in cortex_target_modules %}
+{% set cortex_has_ingester       = 'ingester'       in cortex_target_modules %}
+{% set cortex_has_store_gateway  = 'store-gateway'  in cortex_target_modules %}
+{% set cortex_has_compactor      = 'compactor'      in cortex_target_modules %}
+{% set cortex_has_purger         = 'purger'         in cortex_target_modules %}
 target: '{{ cortex_target_modules | join(",") }}'
 auth_enabled: false
 
@@ -44,7 +54,7 @@ server:
   grpc_server_max_send_msg_size: 104857600
   # Bump gRPC concurrency to avoid delays.
   grpc_server_max_concurrent_streams: 1000
-{% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_distributor %}
   grpc_server_max_connection_age: 2m
   grpc_server_max_connection_age_grace: 5m
   grpc_server_max_connection_idle: 1m
@@ -54,15 +64,12 @@ server:
 storage:
   engine: 'blocks'
 
-{% if 'ingester'      in cortex_target_modules
-   or 'querier'       in cortex_target_modules
-   or 'store-gateway' in cortex_target_modules
-   or 'compactor'     in cortex_target_modules
-   or 'all'           in cortex_target_modules %}
+{% if cortex_has_blocks_storage %}
 blocks_storage:
   tsdb:
     # Should be equal or bigger than querier.query_store_after setting.
     retention_period: '{{ cortex_ingester_retention_period }}'
+    wal_compression_type: '{{ cortex_block_storage_tsdb_wal_compression_type }}'
 
   backend: 's3'
   s3:
@@ -70,8 +77,7 @@ blocks_storage:
     bucket_name: '{{ cortex_blocks_storage_bucket | mandatory }}'
     access_key_id: '{{ cortex_blocks_storage_key_id | mandatory }}'
     secret_access_key: '{{ cortex_blocks_storage_secret | mandatory }}'
-{% if 'querier'       in cortex_target_modules
-   or 'store-gateway' in cortex_target_modules %}
+{% if cortex_has_querier or cortex_has_store_gateway %}
   bucket_store:
     bucket_index:
       enabled: true
@@ -88,7 +94,7 @@ blocks_storage:
 {% endif %}
 
 {% endif %}
-{% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_querier %}
 # ---------------------- Querier --------------------------
 querier:
   max_samples: 1000000000
@@ -105,7 +111,7 @@ frontend_worker:
   match_max_concurrent: true
 
 {% endif %}
-{% if 'querier' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_querier or cortex_has_store_gateway %}
 # ---------------------- Store Gateway --------------------
 store_gateway:
   sharding_enabled: true
@@ -114,11 +120,16 @@ store_gateway:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
-{% if 'query-frontend' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_compactor %}
+# ---------------------- Compactor ------------------------
+compactor:
+  data_dir: '{{ cortex_compact_dir }}'
+
+{% endif %}
+{% if cortex_has_query_frontend %}
 # ---------------------- Query Frontend -------------------
 frontend:
   instance_interface_names: {{ cortex_listen_interfaces | to_yaml }}
-  max_outstanding_per_tenant: 400
   log_queries_longer_than: 5s
   query_stats_enabled: true
 
@@ -142,7 +153,7 @@ query_range:
         addresses: '{{ cortex_memcached_addresses | join(',') }}'
 
 {% endif %}
-{% if 'distributor' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_distributor %}
 # ---------------------- Distributor ----------------------
 distributor:
   # This causes `context deadline exceeded` on push to ingesters.
@@ -152,17 +163,13 @@ distributor:
 {% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
-{% if 'distributor' in cortex_target_modules
-   or 'querier'     in cortex_target_modules %}
+{% if cortex_has_distributor or cortex_has_querier %}
 ingester_client:
   grpc_client_config:
     grpc_compression: '{{ cortex_compression }}'
 
 {% endif %}
-{% if 'ingester'    in cortex_target_modules
-   or 'distributor' in cortex_target_modules
-   or 'querier'     in cortex_target_modules
-   or ['all']       == cortex_target_modules %}
+{% if cortex_has_ingester or cortex_has_distributor or cortex_has_querier %}
 # ---------------------- Ingester -------------------------
 ingester:
   lifecycler:
@@ -172,7 +179,7 @@ ingester:
 {% filter indent(6, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
-{% if 'purger' in cortex_target_modules or ['all'] == cortex_target_modules %}
+{% if cortex_has_purger %}
 # ---------------------- Purger ---------------------------
 purger:
   enable: true
