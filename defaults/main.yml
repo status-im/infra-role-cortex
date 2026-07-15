@@ -23,8 +23,8 @@ cortex_target_modules:
   - 'ruler'
   - 'compactor'
 
-# Viable values: debug, info, warn, error
-cortex_log_level: 'info'
+cortex_log_level: 'info' # debug, info, warn, error
+cortex_log_format: 'json' # logfmt, json
 cortex_listen_port: 9092
 cortex_grpc_port: 9095
 cortex_listen_interfaces: ['wg0']
