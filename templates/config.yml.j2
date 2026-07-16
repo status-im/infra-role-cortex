@@ -105,6 +105,7 @@ querier:
   query_store_after: '{{ cortex_ingester_retention_period }}'
   store_gateway_client:
     grpc_compression: '{{ cortex_compression }}'
+    connect_timeout: '{{ cortex_store_gateway_client_connect_timeout }}'
 
 # ---------------------- Frontend Worker ------------------
 frontend_worker:
@@ -179,12 +180,4 @@ ingester:
     ring:
 {% filter indent(6, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
-{% endif %}
-{% if cortex_has_purger %}
-# ---------------------- Purger ---------------------------
-purger:
-  enable: true
-  num_workers: 2
-  object_store_type: 'inmemory'
-  delete_request_cancel_period: '5m'
 {% endif %}

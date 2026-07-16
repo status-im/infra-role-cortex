@@ -1,7 +1,7 @@
 ---
 - name: Get Consul data centers
   uri:
-    url: '{{ consul_catalog_url }}/datacenters'
+    url: '{{ cortex_consul_catalog_url }}/datacenters'
   register: data_centers
 
 - name: Get Memcached service addresses
@@ -44,6 +44,11 @@
       uri:
         url: '{{ cortex_consul_catalog_url }}/service/cortex?tag=query-frontend'
       register: qf_services
+
+    - name: Verify Query Frontend services were found
+      assert:
+        that: '{{ qf_services.json | length > 0 }}'
+        fail_msg: 'No Cortex query-frontend nodes were discovered!'
 
     - name: Extract Query Frontend IP and port
       set_fact:

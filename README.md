@@ -14,6 +14,11 @@ cortex_blocks_storage_key_id: 'super-secret-id'
 cortex_blocks_storage_secret: 'super-secret-key'
 ```
 
+Optional distributor timeout:
+```yml
+cortex_dist_remote_timeout: '2s'
+```
+
 # Management
 
 You can check the service status using `systemctl`:
