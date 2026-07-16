@@ -15,6 +15,9 @@ RuntimeDirectory={{ cortex_service_name }}
 PermissionsStartOnly=True
 LimitNOFILE=1048576
 Environment=GOMEMLIMIT={{ cortex_memory_limit | mandatory }}
+# Logging
+SyslogIdentifier={{ cortex_service_name }}
+SyslogFacility=local6
 
 [Install]
 WantedBy=multi-user.target
