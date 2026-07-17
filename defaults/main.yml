@@ -7,9 +7,9 @@ cortex_data_dir: '/var/tmp/{{ cortex_service_name }}'
 cortex_wal_dir: '{{ cortex_data_dir }}/wal'
 cortex_compact_dir: '{{ cortex_data_dir }}/compact'
 
-cortex_version: '1.20.1'
+cortex_version: '1.21.1'
 cortex_bin_url: 'https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-linux-amd64'
-cortex_bin_sha256: '5a9cf456ca48bae090396694126fcea3dfa4d8e060f7974a8b270429474f14fa.'
+cortex_bin_sha256: '993f8da3d4c99d9fb82b5e26369502c1a7acf4c2b95e4b87190e608cdb57c649'
 cortex_bin_path: '/usr/local/bin/cortex'
 
 # List of modules/services to load at startup.
@@ -32,6 +32,8 @@ cortex_extra_after_services: ['wg-quick@wg0.service']
 cortex_compression: 'gzip'
 
 # Limits
+cortex_server_grpc_server_max_recv_msg_size: 104857600
+cortex_server_grpc_server_max_send_msg_size: 104857600
 cortex_max_metadata_per_user: 8000
 cortex_old_samples_max_age: '2w'
 cortex_out_of_order_time_window: '0s'
@@ -41,6 +43,7 @@ cortex_max_series_per_user: 5000000
 cortex_max_label_value_length: 2048
 cortex_ingester_retention_period: 24h
 cortex_dist_remote_timeout: '2s'
+cortex_ingester_enable_matcher_optimization: false
 
 # Block Storage Chunks Cache - Memcached
 cortex_block_storage_cache_timeout: '100ms'
