@@ -80,6 +80,8 @@ blocks_storage:
     secret_access_key: '{{ cortex_blocks_storage_secret | mandatory }}'
 {% if cortex_has_querier or cortex_has_store_gateway %}
   bucket_store:
+    bucket_index:
+      max_stale_period: '{{ cortex_blocks_storage_max_stale_period | mandatory }}'
     chunks_cache:
       backend: 'memcached'
       memcached:
@@ -124,6 +126,11 @@ store_gateway:
 # ---------------------- Compactor ------------------------
 compactor:
   data_dir: '{{ cortex_compact_dir }}'
+  cleanup_interval: '5m'
+  sharding_enabled: true
+  sharding_strategy: default
+  sharding_ring:
+{% filter indent(4, True) %}{% include "kvstore.conf.j2" %}{% endfilter %}
 
 {% endif %}
 {% if cortex_has_query_frontend %}
